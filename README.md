@@ -25,7 +25,7 @@ You can download the zip of the project from the [Releases](https://github.com/k
 
 ## How to view
 
-The `sample.jar` file will be a very large JSON text file. It is difficult to see it and grasp overall. You would need a tailored viewer for HAR file. I would recommend you to use [Visual Studio Code](https://code.visualstudio.com/) with [HAR Viewer](https://marketplace.visualstudio.com/items?itemName=unclebeast.har-viewer) plugin installed. The following image shows an example:
+The `sample.jar` file will be a very large JSON text file. It is difficult to see it and grasp overall in a text editor. You would need a tailored viewer for HAR file. I would recommend you to use [Visual Studio Code](https://code.visualstudio.com/) with [HAR Viewer](https://marketplace.visualstudio.com/items?itemName=unclebeast.har-viewer) plugin installed. The following image shows an example:
 
 ![VSCode HAR Viewer](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/images/VSCode_HARViewer.png)
 
