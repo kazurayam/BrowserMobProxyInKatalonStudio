@@ -12,13 +12,14 @@ Katalon Studio v8.5.x does not support recording the payload of HTTP messages ex
 
 BrowserMob Proxy will enabled us to make a [HAR](https://en.wikipedia.org/wiki/HAR_(file_format)) file which contains all HTTP requests and responses recorded during tests in Katalon Studio.  The HTTP messages will be formated in JSON.
 
-![sequence](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/diagrams/out/sequence/sequence.png)
-
 The post suggested the way how to make use of BrowserMob Proxy in Katalon Studio. Unfortunately the presented sample codes were not complete (e.g, the `import` statements were trimmed off), so it was a bit difficult to run on your machine.
 
 ## What's this
 
 Here I would show you a runnable Katalon Studio project empowered by BrowserMob Proxy to make a HAR file that contain HTTP messages exchanged by browser and HTTP servers.
+
+
+![sequence](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/diagrams/out/sequence/sequence.png)
 
 You can download the zip of the project from the [Releases](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/releases/) page. You want to download the zip; unzip it; open the project with your local Katalon Studio; run  the "Test Suite/TS1"; when it  finished you will find `sample.har` file is created in the project folder.
 
