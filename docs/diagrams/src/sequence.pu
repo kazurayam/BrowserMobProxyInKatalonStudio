@@ -8,9 +8,9 @@ database    WebServer  as server
 
 tester   -> script     : run it
 script   -> proxy      : start the proxy
-loop for test steps
+group process test steps
 script   -> browser    : navigate to a URL
-loop for all resources
+loop for all resources of a page
 browser  -> proxy      : request via proxy
 proxy    -> proxy      : record request
 proxy    -> server     : connect to it
@@ -19,7 +19,7 @@ proxy    -> proxy      : record response
 proxy    -> browser    : response
 end
 script   -> script     : do some tests
-end 
+end
 script   -> proxy      : request HAR file
 proxy    -> script     : reply HAR file
 script   -> file       : write
