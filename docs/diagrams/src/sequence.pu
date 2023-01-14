@@ -2,26 +2,23 @@
 actor       Tester     as tester
 database    HAR        as file
 participant TestScript as script
-participant WebDriver  as driver
-participant Browser    as browser
+participant "WebDriver+Browser" as browser
 participant Proxy      as proxy
 database    WebServer  as server
 
 tester   -> script     : run it
 script   -> proxy      : start the proxy
-script   -> driver     : call it
-driver   -> browser    : open it
+script   -> browser    : navigate to a URL
 browser  -> proxy      : request via proxy
-proxy    -> proxy      : record the request
+proxy    -> proxy      : record request
 proxy    -> server     : connect to it
 server   -> proxy      : response
-proxy    -> proxy      : record the response
+proxy    -> proxy      : record response
 proxy    -> browser    : response
-browser  -> driver     : response
-driver   -> script     : response
-script   -> proxy      : request HAR
-proxy    -> script     : reply HAR
-script   -> file       : write HAR into file
+browser  -> script     : response
+script   -> proxy      : request HAR file
+proxy    -> script     : reply HAR file
+script   -> file       : write
 script   -> proxy      : stop the proxy
 script   -> tester     : say done
 @enduml
