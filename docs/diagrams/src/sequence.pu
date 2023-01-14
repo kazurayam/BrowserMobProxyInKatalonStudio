@@ -1,0 +1,28 @@
+@startuml sequence
+actor       Tester     as tester
+database    HAR        as file
+participant TestScript as script
+participant WebDriver  as driver
+participant Browser    as browser
+participant Proxy      as proxy
+database    WebServer  as server
+
+tester   -> script     : run it
+script   -> proxy      : start the proxy
+script   -> driver     : call it
+driver   -> browser    : open it
+browser  -> proxy      : request via proxy
+proxy    -> proxy      : record the request
+proxy    -> server     : connect to it
+server   -> proxy      : response
+proxy    -> proxy      : record the response
+proxy    -> browser    : response
+browser  -> driver     : response
+driver   -> script     : response
+script   -> proxy      : request HAR
+proxy    -> script     : reply HAR
+script   -> file       : write HAR into file
+script   -> proxy      : stop the proxy
+script   -> tester     : say done
+@enduml
+
