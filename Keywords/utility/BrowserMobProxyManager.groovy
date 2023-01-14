@@ -14,11 +14,11 @@ public class BrowserMobProxyManager {
 
 	@Keyword
 	def initProxy() {
-		BrowserMobProxyServer initPorxy = new BrowserMobProxyServer()
+		BrowserMobProxyServer initProxy = new BrowserMobProxyServer()
 		DesiredCapabilities InitDesCapa = new DesiredCapabilities()
 		Proxy initSeleniumProxy = new Proxy()
 		return [
-			initPorxy,
+			initProxy,
 			InitDesCapa,
 			initSeleniumProxy
 		]
