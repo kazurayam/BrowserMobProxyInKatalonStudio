@@ -16,7 +16,7 @@ Unfortunately the presented sample codes were not very complete (e.g, the `impor
 
 ## What's this
 
-Here I would show you a runnable Katalon Studio project enabled by BrowserMob Proxy to make a HAR file.
+Here I would show you a runnable Katalon Studio project empowered by BrowserMob Proxy to make a HAR file.
 
 You can download the zip of the project from the [Releases](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/releases/) page. You want to download the zip; unzip it; open the project with your local Katalon Studio; run  the "Test Suite/TS1"; when it  finished you will find `sample.har` file is created in the project folder.
 
