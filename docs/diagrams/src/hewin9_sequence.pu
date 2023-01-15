@@ -1,0 +1,20 @@
+@startuml hewin9_sequence
+actor       Tester       as tester
+database    HAR          as file
+participant TestScript   as script
+participant "WebDriver+Browser" as browser
+participant Proxy        as proxy
+database    WebServer    as server
+
+tester   -> script       : run it
+group process test StereotypePosition
+script   -> browser      : WebUI.navigate to a URL
+loop for all resources of a page
+browser  -> server       : request
+server   -> browser      : response
+end
+script   -> script       : do some tests
+end
+script   -> 
+
+@enduml

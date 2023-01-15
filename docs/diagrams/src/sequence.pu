@@ -7,10 +7,12 @@ participant Proxy      as proxy
 database    WebServer  as server
 
 tester   -> script     : run it
+activate script #FFccFF
 script   -> proxy      : start the proxy
+activate proxy #ccFFFF
 group process test steps
 script   -> browser    : navigate to a URL
-loop for all resources of a page
+group for all web resources
 browser  -> proxy      : request via proxy
 proxy    -> proxy      : record request
 proxy    -> server     : connect to it
@@ -23,7 +25,9 @@ end
 script   -> proxy      : request HAR file
 proxy    -> script     : reply HAR file
 script   -> file       : write
-script   -> proxy      : stop the proxy
+script   -> proxy      : S: stop the proxy
+deactivate proxy
 script   -> tester     : say done
+deactivate script
 @enduml
 
