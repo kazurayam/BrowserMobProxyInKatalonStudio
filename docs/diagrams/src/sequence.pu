@@ -25,7 +25,7 @@ end
 script   -> proxy      : request HAR file
 proxy    -> script     : reply HAR file
 script   -> file       : write
-script   -> proxy      : S: stop the proxy
+script   -> proxy      : stop the proxy
 deactivate proxy
 script   -> tester     : say done
 deactivate script
