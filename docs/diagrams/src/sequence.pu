@@ -1,10 +1,14 @@
 @startuml sequence
 actor       Tester     as tester
+box "local" #LightBlue
 database    HAR        as file
 participant TestScript as script
 participant "WebDriver+Browser" as browser
 participant Proxy      as proxy
+end box
+box "remote" #LightPink
 database    WebServer  as server
+end box
 
 tester   -> script     : run it
 activate script #FFccFF
