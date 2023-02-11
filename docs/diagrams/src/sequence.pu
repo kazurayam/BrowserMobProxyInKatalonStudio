@@ -1,11 +1,13 @@
 @startuml sequence
+
 actor       Tester     as tester
 box "local" #LightBlue
-database    HAR        as file
 participant TestScript as script
+database    HAR        as har
 participant "WebDriver+Browser" as browser
 participant Proxy      as proxy
 end box
+
 box "remote" #LightPink
 database    WebServer  as server
 end box
@@ -18,19 +20,20 @@ group process test steps
 script   -> browser    : navigate to a URL
 group for all web resources
 browser  -> proxy      : request via proxy
-proxy    -> proxy      : record request
-proxy    -> server     : connect to it
-server   -> proxy      : response
-proxy    -> proxy      : record response
+proxy    -> proxy      : log request
+proxy    -> server     : send request
+server   -> proxy      : reply response
+proxy    -> proxy      : log response
 proxy    -> browser    : response
 end
 script   -> script     : do some tests
 end
-script   -> proxy      : request HAR file
-proxy    -> script     : reply HAR file
-script   -> file       : write
+script   -> proxy      : request HAR
+proxy    -> script     : reply HAR
+script   -> har        : write HAR into file
 script   -> proxy      : stop the proxy
 deactivate proxy
+script   -> har        : verify the log
 script   -> tester     : say done
 deactivate script
 @enduml
