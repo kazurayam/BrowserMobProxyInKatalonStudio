@@ -99,8 +99,12 @@ dependencies {
 
 And you want to execute in the command line:
 
+First, you want to change the current directory to the home directory of your Katalon project. For example:
 ```
-$ cd $projectDir
+$ cd ~/BrowserMobProxyInKatalonStudio
+```
+then you want to do:
+```
 $ gradle katalonCopyDependencies
 ```
 
@@ -119,8 +123,7 @@ drwxr-xr-x  31 kazuakiurayama  staff     992  2 11 11:21 ..
 -rw-r--r--   1 kazuakiurayama  staff   15239  2 11 11:21 katalon_generated_slf4j-simple-2.0.6.jar
 ```
 
-Now you want to run the `Test Cases/process_har_with_jsonpath`, or run the `Test Suties/TS1` which indirectly execute the whole test cases.
-
+Now you are ready to run the `Test Suites/TS1` which indirectly execute the whole set of test cases.
 
 
 ## Conclusion
