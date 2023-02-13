@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description></description>
+   <name>process_har_with_JMESPath</name>
+   <tag></tag>
+   <comment></comment>
+   <testCaseGuid>80066e14-9628-4d85-8376-e66d5f295db2</testCaseGuid>
+</TestCaseEntity>

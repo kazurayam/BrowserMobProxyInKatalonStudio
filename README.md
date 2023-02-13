@@ -125,6 +125,33 @@ drwxr-xr-x  31 kazuakiurayama  staff     992  2 11 11:21 ..
 
 Now you are ready to run the `Test Suites/TS1` which indirectly execute the whole set of test cases.
 
+## process HAR using JMESPath
+
+An alternative way to process JSON could be JMESPath.
+
+- https://jmespath.org/
+
+JMESPath Python implementation is used by AWS Commandline Interface which I am used to.
+
+JMESPath Java implementation is available at
+
+- https://github.com/burtcorp/jmespath-java
+
+I tried to implement [Test Cases/process_har_with_JMESPath](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/tree/main/Scripts/process_har_with_JMESPath/Script1676251084800.groovy) and succeeded.
+
+I added a few lines in the build.gradle
+```
+  implementation group: 'com.amazonaws', name: 'jmespath-java', version: '1.12.405'
+  implementation group: 'io.burt', name: 'jmespath', version: '0.5.1', ext: 'pom'
+  implementation group: 'io.burt', name: 'jmespath-jackson', version: '0.5.1'
+```
+and did
+```
+$ gradle katalonCopyDependencies
+```
+then I got a few jar files added in the `Drivers` folder.
+
+I wrote the `Test Cases/process_har_with_JMESPath`, which worked just the same as `Test Cases/process_har_with_jsonpath`.
 
 ## Conclusion
 
