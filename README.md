@@ -24,6 +24,21 @@ Additionally, I would show you a sample code that parses the HAR file as JSON an
 
 You can download the zip of the project from the [Releases](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/releases/) page. You want to download the zip; unzip it; open the project with your local Katalon Studio; run  the "Test Suite/TS1"; when it  finished you will find `sample.har` file is created in the project folder.
 
+## BrowserMob Proxy is bundled in Katalon Studio
+
+Every Katalon Studio project has `.classpath` file which list all the built-in jar files available to your test case scripts. It contains the BrowserMob Proxy as this on my Mac:
+
+```
+...
+	<classpathentry kind="lib" path="/Applications/Katalon Studio.app/Contents/Eclipse/configuration/resources/lib/browsermob-core-2.1.5.jar"/>
+...
+```
+
+## Demo Test Suite
+
+Try running the `Test Suites/TS0`. When done, a new file `<projectDir>/sample.har` will be created.
+
+
 ## How to view the HAR file
 
 The `sample.jar` file will be a very large JSON text file. It is difficult to see it and grasp overall in a text editor. You would need a tailored viewer for HAR file. I would recommend you to use [Visual Studio Code](https://code.visualstudio.com/) with [HAR Viewer](https://marketplace.visualstudio.com/items?itemName=unclebeast.har-viewer) plugin installed. The following image shows an example:
