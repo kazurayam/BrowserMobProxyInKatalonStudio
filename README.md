@@ -24,6 +24,21 @@ Additionally, I would show you a sample code that parses the HAR file as JSON an
 
 You can download the zip of the project from the [Releases](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/releases/) page. You want to download the zip; unzip it; open the project with your local Katalon Studio; run  the "Test Suite/TS1"; when it  finished you will find `sample.har` file is created in the project folder.
 
+## BrowserMob Proxy is bundled in Katalon Studio
+
+Every Katalon Studio project has `.classpath` file which list all the built-in jar files available to your test case scripts. It contains the BrowserMob Proxy as this on my Mac:
+
+```
+...
+	<classpathentry kind="lib" path="/Applications/Katalon Studio.app/Contents/Eclipse/configuration/resources/lib/browsermob-core-2.1.5.jar"/>
+...
+```
+
+## Demo Test Suite
+
+Try running the `Test Suites/TS0`. When done, a new file `<projectDir>/sample.har` will be created.
+
+
 ## How to view the HAR file
 
 The `sample.jar` file will be a very large JSON text file. It is difficult to see it and grasp overall in a text editor. You would need a tailored viewer for HAR file. I would recommend you to use [Visual Studio Code](https://code.visualstudio.com/) with [HAR Viewer](https://marketplace.visualstudio.com/items?itemName=unclebeast.har-viewer) plugin installed. The following image shows an example:
@@ -90,9 +105,9 @@ repositories {
 }
 
 dependencies {
-  implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.7.0'
-  implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.6'
-  implementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.6'
+  implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.9.0'
+  implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.13'
+  implementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.13'
 }
 
 ```
@@ -115,12 +130,12 @@ $ ls -ls Drivers
 total 1240
 drwxr-xr-x   8 kazuakiurayama  staff     256  2 11 11:55 .
 drwxr-xr-x  31 kazuakiurayama  staff     992  2 11 11:21 ..
--rw-r--r--   1 kazuakiurayama  staff   29489  2 11 11:21 katalon_generated_accessors-smart-2.4.7.jar
--rw-r--r--   1 kazuakiurayama  staff  121790  2 11 11:21 katalon_generated_asm-9.1.jar
--rw-r--r--   1 kazuakiurayama  staff  271159  2 11 11:21 katalon_generated_json-path-2.7.0.jar
--rw-r--r--   1 kazuakiurayama  staff  119227  2 11 11:21 katalon_generated_json-smart-2.4.7.jar
--rw-r--r--   1 kazuakiurayama  staff   62531  2 11 11:21 katalon_generated_slf4j-api-2.0.6.jar
--rw-r--r--   1 kazuakiurayama  staff   15239  2 11 11:21 katalon_generated_slf4j-simple-2.0.6.jar
+-rw-r--r--   1 kazuakiurayama  staff   29489  2 11 11:21 katalon_generated_accessors-smart-2.5.0.jar
+-rw-r--r--   1 kazuakiurayama  staff  121790  2 11 11:21 katalon_generated_asm-9.3.jar
+-rw-r--r--   1 kazuakiurayama  staff  271159  2 11 11:21 katalon_generated_json-path-2.9.0.jar
+-rw-r--r--   1 kazuakiurayama  staff  119227  2 11 11:21 katalon_generated_json-smart-2.5.0.jar
+-rw-r--r--   1 kazuakiurayama  staff   62531  2 11 11:21 katalon_generated_slf4j-api-2.0.13.jar
+-rw-r--r--   1 kazuakiurayama  staff   15239  2 11 11:21 katalon_generated_slf4j-simple-2.0.13.jar
 ```
 
 Now you are ready to run the `Test Suites/TS1` which indirectly execute the whole set of test cases.
@@ -141,9 +156,9 @@ I tried to implement [Test Cases/process_har_with_JMESPath](https://github.com/k
 
 I added a few lines in the build.gradle
 ```
-  implementation group: 'com.amazonaws', name: 'jmespath-java', version: '1.12.405'
-  implementation group: 'io.burt', name: 'jmespath', version: '0.5.1', ext: 'pom'
-  implementation group: 'io.burt', name: 'jmespath-jackson', version: '0.5.1'
+  implementation group: 'com.amazonaws', name: 'jmespath-java', version: '1.12.738'
+  implementation group: 'io.burt', name: 'jmespath', version: '0.6.0', ext: 'pom'
+  implementation group: 'io.burt', name: 'jmespath-jackson', version: '0.6.0'
 ```
 and did
 ```
