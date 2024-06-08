@@ -21,7 +21,6 @@ build
 
 .settings/
 settings/
-build.gradle
 console.properties
 
 Drivers/
