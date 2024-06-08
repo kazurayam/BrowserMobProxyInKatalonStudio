@@ -36,7 +36,15 @@ Every Katalon Studio project has `.classpath` file which list all the built-in j
 
 ## Demo Test Suite
 
-Try running the `Test Suites/TS0`. When done, a new file `<projectDir>/sample.har` will be created.
+Try running the `Test Suites/TS0`, which comprises with 3 Test Case scripts.
+
+1. [Test Cases/startProxy_openBrowser](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/startProxy_openBrowser/Script1673684243630.groovy)
+2. [Test Cases/TestStuff](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/TestStuff/Script1673678647580.groovy)
+3. [Test Cases/closeBrowser_stopProxy](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/closeBrowser_stopProxy/Script1673684270460.groovy)
+
+Each scrits do what their names mean.
+
+When finished, the `TS0` will create a new file `<projectDir>/sample.har`.
 
 
 ## How to view the HAR file
