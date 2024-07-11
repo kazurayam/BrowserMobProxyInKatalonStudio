@@ -26,6 +26,7 @@ server   -> proxy      : reply response
 proxy    -> proxy      : log response
 proxy    -> browser    : response
 end
+browser  -> script     : response
 script   -> script     : do some tests
 end
 script   -> proxy      : request HAR
@@ -33,7 +34,7 @@ proxy    -> script     : reply HAR
 script   -> har        : write HAR into file
 script   -> proxy      : stop the proxy
 deactivate proxy
-script   -> har        : verify the log
+script   -> har        : verify the HAR
 script   -> tester     : say done
 deactivate script
 @enduml
