@@ -227,6 +227,8 @@ urls.forEach { url ->
 }
 ```
 
+As you see, this code uses the [`Jackson Core`](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core/2.14.2) library. Katalon Studio bundles the jar of `Jackson Core`; so that you do not have to add any external jar.
+
 When I ran this Test Case, I got the following output in the console:
 
 ```
