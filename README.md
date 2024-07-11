@@ -4,13 +4,13 @@
 
 In the [Katalon User Forum](https://forum.katalon.com/), there is a Frequently Asked Questions.
 
->I want to do a Web UI test using browsers and at the same time I want to save the payload of HTTP requests and responses into a file. How can I do it?
+> I want to do a Web UI test using browsers and at the same time I want to save the payload of HTTP requests and responses into a file. How can I do it?
 
 Katalon Studio v8.5.x does not support recording the payload of HTTP messages exchanged between a browser and HTTP servers. You need to employ other technologies. The following post by matteo.lauria at Feb '21 suggested [BrowserMob Proxy](https://bmp.lightbody.net/) for this purpose.
 
 - https://forum.katalon.com/t/how-to-generate-har-file-for-web-test-suite/24384/5
 
-BrowserMob Proxy will enabled us to make a [HAR](https://en.wikipedia.org/wiki/HAR_(file_format)) file which contains all HTTP requests and responses recorded during tests in Katalon Studio.  The HTTP messages will be formated in JSON.
+BrowserMob Proxy will enabled us to make a [HAR](<https://en.wikipedia.org/wiki/HAR_(file_format)>) file which contains all HTTP requests and responses recorded during tests in Katalon Studio. The HTTP messages will be formated in JSON.
 
 The post suggested the way how to make use of BrowserMob Proxy in Katalon Studio. Unfortunately the presented sample codes were not complete (e.g, the `import` statements were trimmed off), so it was a bit difficult to reuse on my machine.
 
@@ -22,7 +22,7 @@ Additionally, I would show you a sample code that parses the HAR file as JSON an
 
 ![sequence](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/diagrams/out/sequence/sequence.png)
 
-You can download the zip of the project from the [Releases](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/releases/) page. You want to download the zip; unzip it; open the project with your local Katalon Studio; run  the "Test Suite/TS1"; when it  finished you will find `sample.har` file is created in the project folder.
+You can download the zip of the project from the [Releases](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/releases/) page. You want to download the zip; unzip it; open the project with your local Katalon Studio; run the "Test Suite/TS1"; when it finished you will find `sample.har` file is created in the project folder.
 
 ## BrowserMob Proxy is bundled in Katalon Studio
 
@@ -45,7 +45,6 @@ Try running the `Test Suites/TS0`, which comprises with 3 Test Case scripts.
 Each scrits do what their names mean.
 
 When finished, the `TS0` will create a new file `<projectDir>/sample.har`.
-
 
 ## How to view the HAR file
 
@@ -123,10 +122,13 @@ dependencies {
 And you want to execute in the command line:
 
 First, you want to change the current directory to the home directory of your Katalon project. For example:
+
 ```
 $ cd ~/BrowserMobProxyInKatalonStudio
 ```
+
 then you want to do:
+
 ```
 $ gradle katalonCopyDependencies
 ```
@@ -163,19 +165,22 @@ JMESPath Java implementation is available at
 I tried to implement [Test Cases/process_har_with_JMESPath](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/tree/main/Scripts/process_har_with_JMESPath/Script1676251084800.groovy) and succeeded.
 
 I added a few lines in the build.gradle
+
 ```
   implementation group: 'com.amazonaws', name: 'jmespath-java', version: '1.12.738'
   implementation group: 'io.burt', name: 'jmespath', version: '0.6.0', ext: 'pom'
   implementation group: 'io.burt', name: 'jmespath-jackson', version: '0.6.0'
 ```
+
 and did
+
 ```
 $ gradle katalonCopyDependencies
 ```
+
 then I got a few jar files added in the `Drivers` folder.
 
 I wrote the `Test Cases/process_har_with_JMESPath`, which worked just the same as `Test Cases/process_har_with_jsonpath`.
-
 
 ## Process HAR using JSON Streaming API
 
@@ -188,13 +193,69 @@ $ wc sample.har
 
 The sample.har files has 4152 lines, 10745 words, 1017938 characters. Well, it's large. Now I want to pick up all URL string contained in the sample.har file. How can I do it? [Jackson Streaming API](https://www.baeldung.com/jackson-streaming-api) is an ideal solution for this problem.
 
-I made a [`Test Cases/process_har_with_streaming_api`]() 
+I made a [`Test Cases/process_har_with_streaming_api`](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/process_har_with_streaming_api/Script1720675301367.groovy)
 
+```
+import java.nio.file.Path
+import java.nio.file.Paths
 
+import com.fasterxml.jackson.core.JsonFactory
+import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.core.JsonToken
+import com.kms.katalon.core.configuration.RunConfiguration
 
+/**
+ * https://www.baeldung.com/jackson-streaming-api
+ */
+Path projectDir = Paths.get(RunConfiguration.getProjectDir())
+Path har = projectDir.resolve("sample.har")
 
+JsonFactory jfactory = new JsonFactory()
+JsonParser jParser = jfactory.createParser(har.toFile());
 
+SortedSet<String> urls = new TreeSet<>();
+while (jParser.nextToken() != null) {
+	if ("url".equals(jParser.getCurrentName())) {
+		jParser.nextToken()
+		urls.add(jParser.getText());
+	}
+}
+jParser.close()
 
+urls.forEach { url ->
+	println url
+}
+```
+
+When I ran this Test Case, I got the following output in the console:
+
+```
+2024-07-11 15:06:58.351 INFO  c.k.katalon.core.main.TestCaseExecutor   - --------------------
+2024-07-11 15:06:58.354 INFO  c.k.katalon.core.main.TestCaseExecutor   - START Test Cases/process_har_with_streaming_api
+http://demoaut.katalon.com/
+https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css
+https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js
+https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css
+https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2?v=4.7.0
+https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js
+https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css
+https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/fonts/glyphicons-halflings-regular.woff2
+https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js
+https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic
+https://fonts.gstatic.com/s/sourcesanspro/v22/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7lujVj9w.woff2
+https://fonts.gstatic.com/s/sourcesanspro/v22/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu3cOWxw.woff2
+https://fonts.gstatic.com/s/sourcesanspro/v22/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu3cOWxw.woff2
+https://katalon-demo-cura.herokuapp.com/
+https://katalon-demo-cura.herokuapp.com//css/theme.css
+https://katalon-demo-cura.herokuapp.com//img/header.jpg
+https://katalon-demo-cura.herokuapp.com//js/theme.js
+https://katalon-demo-cura.herokuapp.com/appointment.php
+https://katalon-demo-cura.herokuapp.com/authenticate.php
+https://katalon-demo-cura.herokuapp.com/profile.php
+2024-07-11 15:07:23.338 INFO  c.k.katalon.core.main.TestCaseExecutor   - END Test Cases/process_har_with_streaming_api
+```
+
+This run took 25 seconds to finish. Well, reasonable speed, I think. Not too slow, not too fast.
 
 ## Conclusion
 
