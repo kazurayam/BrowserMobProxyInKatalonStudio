@@ -176,6 +176,26 @@ then I got a few jar files added in the `Drivers` folder.
 
 I wrote the `Test Cases/process_har_with_JMESPath`, which worked just the same as `Test Cases/process_har_with_jsonpath`.
 
+
+## Process HAR using JSON Streaming API
+
+How large the sample.har is?
+
+```
+$ wc sample.har
+    4152   10745 1017938 sample.har
+```
+
+The sample.har files has 4152 lines, 10745 words, 1017938 characters. Well, it's large. Now I want to pick up all URL string contained in the sample.har file. How can I do it? [Jackson Streaming API](https://www.baeldung.com/jackson-streaming-api) is an ideal solution for this problem.
+
+I made a [`Test Cases/process_har_with_streaming_api`]() 
+
+
+
+
+
+
+
 ## Conclusion
 
 Hope this helps.
