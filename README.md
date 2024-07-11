@@ -182,7 +182,7 @@ then I got a few jar files added in the `Drivers` folder.
 
 I wrote the `Test Cases/process_har_with_JMESPath`, which worked just the same as `Test Cases/process_har_with_jsonpath`.
 
-## Process HAR using JSON Streaming API
+## Process HAR using Jackson Streaming API
 
 How large the sample.har is?
 
