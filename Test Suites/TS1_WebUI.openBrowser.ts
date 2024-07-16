@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestSuiteEntity>
    <description></description>
-   <name>TS1</name>
+   <name>TS1_WebUI.openBrowser</name>
    <tag></tag>
    <isRerun>false</isRerun>
    <mailRecipient></mailRecipient>
@@ -10,12 +10,12 @@
    <pageLoadTimeoutDefault>true</pageLoadTimeoutDefault>
    <rerunFailedTestCasesOnly>false</rerunFailedTestCasesOnly>
    <rerunImmediately>false</rerunImmediately>
-   <testSuiteGuid>a4cac88a-1806-4419-8026-1b9d220cab5e</testSuiteGuid>
+   <testSuiteGuid>ba654c2e-9635-4cab-b568-887c18261489</testSuiteGuid>
    <testCaseLink>
-      <guid>a7580ed3-6795-4ee2-a43b-14e3ef54630b</guid>
+      <guid>67892993-5962-4654-8943-fbea497ee690</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/startProxy_openBrowser</testCaseId>
+      <testCaseId>Test Cases/startProxy_WebUI.openBrowser</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>

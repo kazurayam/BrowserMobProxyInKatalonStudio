@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>startProxy_openBrowser</name>
+   <name>startProxy_newChromeDriver</name>
    <tag></tag>
    <comment></comment>
    <testCaseGuid>d5c83ac5-2fe7-4aa5-a743-9546441d54d1</testCaseGuid>

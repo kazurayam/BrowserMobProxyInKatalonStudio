@@ -8,6 +8,8 @@ import com.kms.katalon.core.webui.driver.DriverFactory
 import internal.GlobalVariable
 import net.lightbody.bmp.BrowserMobProxyServer
 
+// startProxy_newChromeDriver
+
 BrowserMobProxyServer bmpServer
 DesiredCapabilities desiredCapabilities
 
