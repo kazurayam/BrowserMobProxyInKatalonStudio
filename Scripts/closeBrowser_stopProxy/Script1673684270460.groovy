@@ -7,16 +7,20 @@ import net.lightbody.bmp.core.har.Har;
 // close the browser
 WebUI.closeBrowser()
 
-// get the HAR content
-Har har = GlobalVariable.proxy.getHar()
+if (GlobalVariable.BrowserMobProxyServer != null) {
+	// get the HAR content out of the Browser MobProxy Server
+	Har har = GlobalVariable.BrowserMobProxyServer.getHar()
 
-StringWriter sw = new StringWriter()
-har.writeTo(sw)
+	StringWriter sw = new StringWriter()
+	har.writeTo(sw)
 
-// save the json into a file
-def pp = JsonOutput.prettyPrint(sw.toString())
-File f = new File("sample.har")
-f.text = pp
+	// save the json into a file
+	def pp = JsonOutput.prettyPrint(sw.toString())
+	File f = new File("sample.har")
+	f.text = pp
+	WebUI.comment("wrote sample.har file")
 
-// terminate the proxy process
-GlobalVariable.proxy.stop()
+	// stop the BrowserMob Proxy Server gracefully
+	GlobalVariable.BrowserMobProxyServer.stop()
+	GlobalVariable.BrowserMobProxyServer = null
+}

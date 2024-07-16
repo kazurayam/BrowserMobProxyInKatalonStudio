@@ -5,9 +5,9 @@
    <tag></tag>
    <defaultProfile>true</defaultProfile>
    <GlobalVariableEntity>
-      <description>BrowserMob Proxy instance</description>
+      <description>reference to the BrowserMob Proxy instance</description>
       <initValue>null</initValue>
-      <name>proxy</name>
+      <name>BrowserMobProxyServer</name>
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>

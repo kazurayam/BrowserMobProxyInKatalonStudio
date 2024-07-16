@@ -4,25 +4,25 @@
 
 In the [Katalon User Forum](https://forum.katalon.com/), there is a Frequently Asked Questions.
 
-> I want to do a Web UI test using browsers and at the same time I want to save the payload of HTTP requests and responses into a file. How can I do it?
+> I want to do a Web UI test using browsers, and at the same time I want to get the payload of requests and responses exchanged between browser and server. I want to save it into a file. How can I do it?
 
-Katalon Studio v8.5.x does not support recording the payload of HTTP messages exchanged between a browser and HTTP servers. You need to employ other technologies. The following post by matteo.lauria at Feb '21 suggested [BrowserMob Proxy](https://bmp.lightbody.net/) for this purpose.
+Katalon Studio does not support recording the payload of HTTP messages exchanged between a browser and HTTP servers. You need to employ additional technology. The following post by matteo.lauria at Feb '21 suggested [BrowserMob Proxy](https://bmp.lightbody.net/) for this purpose.
 
 - https://forum.katalon.com/t/how-to-generate-har-file-for-web-test-suite/24384/5
 
 BrowserMob Proxy will enabled us to make a [HAR](<https://en.wikipedia.org/wiki/HAR_(file_format)>) file which contains all HTTP requests and responses recorded during tests in Katalon Studio. The HTTP messages will be formated in JSON.
 
-The post suggested the way how to make use of BrowserMob Proxy in Katalon Studio. Unfortunately the presented sample codes were not complete (e.g, the `import` statements were trimmed off), so it was a bit difficult to reuse on my machine.
+The post suggested the way how to make use of BrowserMob Proxy in Katalon Studio. Unfortunately the sample code by matteo.lauria were incomplete complete (e.g, the `import` statements were trimmed off), so it was difficult to reuse in my project.
 
 ## What's this
 
 Here I would show you a runnable Katalon Studio project empowered by BrowserMob Proxy to make a HAR file that contain HTTP messages exchanged by browser and HTTP servers.
 
-Additionally, I would show you a sample code that parses the HAR file as JSON and verify if it meets some condition. For example, the demo tests if the HAR contains a request to a URL that ends with a string `jquery.min.js`. You can modify the test condition as a Regular Expression as you want.
-
 ![sequence](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/diagrams/out/sequence/sequence.png)
 
-You can download the zip of the project from the [Releases](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/releases/) page. You want to download the zip; unzip it; open the project with your local Katalon Studio; run the "Test Suite/TS1"; when it finished you will find `sample.har` file is created in the project folder.
+Additionally, I would show you a set of sample codes that post-processes the HAR file. For example, this project provides a demo that tests if the HAR contains a request to a URL ending with a string `jquery.min.js`.
+
+You can download the zip of the project from the [Releases](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/releases/) page. You want to download the zip; unzip it; open the project with your local Katalon Studio; run the "Test Suite/TS1_WebUI.openBrowser"; when it finished you will find `sample.har` file is created in the project folder.
 
 ## BrowserMob Proxy is bundled in Katalon Studio
 
@@ -36,15 +36,30 @@ Every Katalon Studio project has `.classpath` file which list all the built-in j
 
 ## Demo Test Suite
 
-Try running the `Test Suites/TS0`, which comprises with 3 Test Case scripts.
+Try running the `Test Suites/TS1_WebUI.openBrowser`, which comprises with 3 Test Case scripts.
 
-1. [Test Cases/startProxy_openBrowser](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/startProxy_openBrowser/Script1673684243630.groovy)
-2. [Test Cases/TestStuff](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/TestStuff/Script1673678647580.groovy)
-3. [Test Cases/closeBrowser_stopProxy](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/closeBrowser_stopProxy/Script1673684270460.groovy)
+1. [Test Cases/startProxy_WebUI.openBrowser](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/startProxy_WebUI.openBrowser/Script1721103602049.groovy)
+2. [Test Cases/TestStuff1]()
+3. [Test Cases/closeBrowser_stopProxy]()
 
-Each scrits do what their names mean.
+### `startProxy_WebUI.openbBrowser`
 
-When finished, the `TS0` will create a new file `<projectDir>/sample.har`.
+1. starts a process of BrowserMob Proxy Server.
+2. opens a web browser using `WebUI.openBrowser()` keyword. Only Chrome and Chrome (headless) is supported.
+3. configures the browser so that it communicate with the target URL via proxy (= BrowserMob Proxy Server)
+
+### `TestStuff1`
+
+An usual Katalon Test Case. It navigates to a URL `http://demoauto.katalon.com` and operates on it.
+
+### `closeBrowser_stopProxy`
+
+1. closes browser window
+2. ask the BrowserMob Proxy Server for the HAR content which includes all of HTTP requests and responses in JSON format. Save the HAR into a local file.
+3. stops the BrowserMob Proxy Server.
+
+
+When `TS1_WebUI.openBrowser` finished, you will find a file `<projectDir>/sample.har`.
 
 ## How to view the HAR file
 
