@@ -8,7 +8,7 @@ import net.lightbody.bmp.core.har.Har;
 WebUI.closeBrowser()
 
 // get the HAR content
-Har har = GlobalVariable.proxy.getHar()
+Har har = GlobalVariable.BrowserMobProxyServer.getHar()
 
 StringWriter sw = new StringWriter()
 har.writeTo(sw)
@@ -17,6 +17,7 @@ har.writeTo(sw)
 def pp = JsonOutput.prettyPrint(sw.toString())
 File f = new File("sample.har")
 f.text = pp
+WebUI.comment("wrote sample.har file")
 
 // terminate the proxy process
-GlobalVariable.proxy.stop()
+GlobalVariable.BrowserMobProxyServer.stop()
