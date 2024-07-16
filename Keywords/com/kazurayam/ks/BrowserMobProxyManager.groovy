@@ -13,7 +13,7 @@ import net.lightbody.bmp.proxy.CaptureType
 public class BrowserMobProxyManager {
 
 	@Keyword
-	def startupBmpServer(BrowserMobProxyServer) {
+	def startupBmpServer() {
 		//
 		BrowserMobProxyServer bmpServer = new BrowserMobProxyServer()
 		bmpServer.start(0)
