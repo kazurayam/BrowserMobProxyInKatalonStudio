@@ -17,7 +17,7 @@ import io.burt.jmespath.jackson.JacksonRuntime
  * See https://jmespath.org/
  */
 Path projectDir = Paths.get(RunConfiguration.getProjectDir())
-Path har = projectDir.resolve("sample.har")
+Path har = projectDir.resolve("work/sample.har")
 Path harRelative = projectDir.relativize(har)
 
 // verify if the HAR file contains a request of which url ends with "jquery.min.js"

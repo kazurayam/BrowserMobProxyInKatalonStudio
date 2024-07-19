@@ -12,7 +12,7 @@ import com.kms.katalon.core.util.KeywordUtil
  * See https://github.com/json-path/JsonPath
  */
 Path projectDir = Paths.get(RunConfiguration.getProjectDir())
-Path har = projectDir.resolve("sample.har")
+Path har = projectDir.resolve("work/sample.har")
 Path harRelative = projectDir.relativize(har)
 
 // verify if the HAR file contains a request of which url ends with "jquery.min.js"

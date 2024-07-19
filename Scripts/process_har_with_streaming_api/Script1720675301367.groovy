@@ -10,7 +10,7 @@ import com.kms.katalon.core.configuration.RunConfiguration
  * https://www.baeldung.com/jackson-streaming-api
  */
 Path projectDir = Paths.get(RunConfiguration.getProjectDir())
-Path har = projectDir.resolve("sample.har")
+Path har = projectDir.resolve("work/sample.har")
 
 JsonFactory jfactory = new JsonFactory()
 JsonParser jParser = jfactory.createParser(har.toFile());

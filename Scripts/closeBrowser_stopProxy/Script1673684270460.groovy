@@ -1,8 +1,12 @@
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import groovy.json.JsonOutput
 import internal.GlobalVariable
-import net.lightbody.bmp.core.har.Har;
+import net.lightbody.bmp.core.har.Har
 
 // close the browser
 WebUI.closeBrowser()
@@ -16,8 +20,10 @@ if (GlobalVariable.BrowserMobProxyServer != null) {
 
 	// save the json into a file
 	def pp = JsonOutput.prettyPrint(sw.toString())
-	File f = new File("sample.har")
-	f.text = pp
+	
+	Path f = Paths.get("work/sample.har")
+	Files.createDirectories(f.getParent())
+	Files.writeString(f, pp)
 	WebUI.comment("wrote sample.har file")
 
 	// stop the BrowserMob Proxy Server gracefully
