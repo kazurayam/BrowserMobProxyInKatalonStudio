@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>squeeze_har_by_JasonPath</name>
+   <name>squeeze_har_using_JsonPath</name>
    <tag></tag>
    <comment></comment>
    <testCaseGuid>3490f199-dc57-4ba5-9459-7f60d6b86782</testCaseGuid>
