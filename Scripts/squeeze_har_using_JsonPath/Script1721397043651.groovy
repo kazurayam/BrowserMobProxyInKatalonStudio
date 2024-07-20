@@ -1,8 +1,10 @@
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.nio.charset.StandardCharsets
 import java.util.regex.Pattern
 
+import com.kazurayam.jsonflyweight.JsonFlyweightPrettyPrinter
 import com.jayway.jsonpath.Criteria
 import com.jayway.jsonpath.Filter
 import com.jayway.jsonpath.JsonPath
@@ -29,7 +31,6 @@ import groovy.json.JsonOutput
 // Input
 Path projectDir = Paths.get(RunConfiguration.getProjectDir())
 Path har = projectDir.resolve("work/sample.har")
-InputStream harInputStream = Files.newInputStream(har)
 
 // I am solely interested in a HTTP request of which URL contains a string ".jquery.min.js"
 Filter filter = Filter.filter(
@@ -38,34 +39,35 @@ Filter filter = Filter.filter(
 
 // Now squeeze it!
 List<Map<String, Object>> squeezed = 
-	JsonPath.parse(harInputStream)
+	JsonPath.parse(Files.newInputStream(har))
 		.read("\$['log']['entries'][?]", filter)   
 		                        // [?(...)] is a filter expression
 
 // Re-construct a Map in the format of HAR
 def reconstructed = ["log":[
-						"version": null,
-						"creator": null,
-						"pages": null, 
+						// "version": null,
+						// "creator": null,
+						// "pages": null, 
 						
-						// let's insert the interesting part
 						"entries": squeezed,
 						
-						"comment": ""
+						//"comment": ""
 						]]
 
-// convert the Map object into JSON text
-String juice = JsonOutput.toJson(reconstructed)
+// the destination file where we store the squeezed JSON content
+Path squeezedFile = projectDir.resolve("work/squeezed.json")
+Files.createDirectories(squeezedFile.getParent());
 
-// write the squeezed JSON text into file
-String pretty = JsonOutput.prettyPrint(juice)
-Path result = projectDir.resolve("work/squeezed.json")
-Files.writeString(result, pretty)
+// jsonify the cobject, pretty-print it, save the result into the destination file
+JsonFlyweightPrettyPrinter.prettyPrint(
+	new StringReader(JsonOutput.toJson(reconstructed)),
+	new OutputStreamWriter(new FileOutputStream(squeezedFile.toFile()), StandardCharsets.UTF_8)
+	);
 
 // diagnoze the size of 2 files
 int hl = har.toFile().length()
 String hls = String.format("%,11d", hl)
-int ql = result.toFile().length()
+int ql = squeezedFile.toFile().length()
 String qls = String.format("%,11d", ql)
 int percent = Math.floor(ql * 100 / hl)
 

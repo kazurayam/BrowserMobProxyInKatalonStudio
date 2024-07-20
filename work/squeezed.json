@@ -1,12 +1,9 @@
 {
     "log": {
-        "version": null,
-        "creator": null,
-        "pages": null,
         "entries": [
             {
                 "pageref": "request",
-                "startedDateTime": "2024-07-18T06:18:13.357Z",
+                "startedDateTime": "2024-07-20T11:09:10.035Z",
                 "request": {
                     "method": "GET",
                     "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js",
@@ -25,7 +22,7 @@
                         },
                         {
                             "name": "sec-ch-ua",
-                            "value": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\""
+                            "value": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"HeadlessChrome\";v=\"126\""
                         },
                         {
                             "name": "sec-ch-ua-mobile",
@@ -33,7 +30,7 @@
                         },
                         {
                             "name": "User-Agent",
-                            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+                            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/126.0.6478.183 Safari/537.36"
                         },
                         {
                             "name": "sec-ch-ua-platform",
@@ -62,16 +59,12 @@
                         {
                             "name": "Accept-Encoding",
                             "value": "gzip, deflate, br, zstd"
-                        },
-                        {
-                            "name": "Accept-Language",
-                            "value": "ja,en-US;q=0.9,en;q=0.8"
                         }
                     ],
                     "queryString": [
                         
                     ],
-                    "headersSize": 593,
+                    "headersSize": 565,
                     "bodySize": 0,
                     "comment": ""
                 },
@@ -85,7 +78,7 @@
                     "headers": [
                         {
                             "name": "Date",
-                            "value": "Thu, 18 Jul 2024 06:18:13 GMT"
+                            "value": "Sat, 20 Jul 2024 11:09:10 GMT"
                         },
                         {
                             "name": "Content-Type",
@@ -141,11 +134,11 @@
                         },
                         {
                             "name": "Age",
-                            "value": "298186"
+                            "value": "158372"
                         },
                         {
                             "name": "Expires",
-                            "value": "Tue, 08 Jul 2025 06:18:13 GMT"
+                            "value": "Thu, 10 Jul 2025 11:09:10 GMT"
                         },
                         {
                             "name": "Accept-Ranges",
@@ -153,7 +146,7 @@
                         },
                         {
                             "name": "Report-To",
-                            "value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=zhiSqXSLhFDTrW%2Fg8Dj8Hdy1iPY%2F5xxLMFbasKLpH2uvfOmjVrNZB0aYdK7DJNOsf5Wk3UuVeP7ym5eGcjl8QOIhthPZn6C0O2l8xqy1z57OcCy394KJyRCdhM%2F%2BcM5MqeRkmVjF\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+                            "value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=%2Fpq2rI9prjC%2B%2FaxGKOo8bBYiYMtaqxYORkxXih0asB6wa%2FBWlXBkokQYFRHyQOouoPSJo6qHWsmnZZlxg38acdAexrefRRZfit47SZbQfNcdjPVH3hjSj0bniv9EBx4Du%2F4AbEV%2F\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
                         },
                         {
                             "name": "NEL",
@@ -169,7 +162,7 @@
                         },
                         {
                             "name": "CF-RAY",
-                            "value": "8a505a6a0d19dff1-NRT"
+                            "value": "8a627f5abdb1e08a-NRT"
                         },
                         {
                             "name": "alt-svc",
@@ -188,7 +181,7 @@
                         "comment": ""
                     },
                     "redirectURL": "",
-                    "headersSize": 1028,
+                    "headersSize": 1032,
                     "bodySize": 29929,
                     "comment": ""
                 },
@@ -197,19 +190,18 @@
                 },
                 "timings": {
                     "comment": "",
-                    "ssl": 477,
+                    "ssl": 633,
+                    "connect": 679,
                     "blocked": 0,
-                    "dns": 49,
-                    "connect": 503,
+                    "dns": 5,
                     "send": 0,
-                    "wait": 41,
-                    "receive": 41
+                    "wait": 188,
+                    "receive": 53
                 },
-                "serverIPAddress": "104.17.24.14",
+                "serverIPAddress": "104.17.25.14",
                 "comment": "",
-                "time": 637
+                "time": 927
             }
-        ],
-        "comment": ""
+        ]
     }
 }
