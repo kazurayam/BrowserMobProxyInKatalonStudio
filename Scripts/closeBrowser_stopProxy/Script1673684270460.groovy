@@ -2,9 +2,9 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
+import com.kazurayam.jsonflyweight.JsonFlyweightPrettyPrinter as PP
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
-import groovy.json.JsonOutput
 import internal.GlobalVariable
 import net.lightbody.bmp.core.har.Har
 
@@ -12,19 +12,17 @@ import net.lightbody.bmp.core.har.Har
 WebUI.closeBrowser()
 
 if (GlobalVariable.BrowserMobProxyServer != null) {
-	// get the HAR content out of the Browser MobProxy Server
-	Har har = GlobalVariable.BrowserMobProxyServer.getHar()
-
-	StringWriter sw = new StringWriter()
-	har.writeTo(sw)
-
-	// save the json into a file
-	def pp = JsonOutput.prettyPrint(sw.toString())
 	
+	// get the HAR content out of the Browser MobProxy Server, save it into a temporary file
+	Har har = GlobalVariable.BrowserMobProxyServer.getHar()
+	Path tempFile = Files.createTempFile("har", ".tmp")
+	har.writeTo(Files.newOutputStream(tempFile))
+
+	// pretty-print the json, save it into a planned file
 	Path f = Paths.get("work/sample.har")
 	Files.createDirectories(f.getParent())
-	Files.writeString(f, pp)
-	WebUI.comment("wrote sample.har file")
+	PP.prettyPrint(Files.newInputStream(tempFile), Files.newOutputStream(f))
+	WebUI.comment("wrote the work/sample.har file")
 
 	// stop the BrowserMob Proxy Server gracefully
 	GlobalVariable.BrowserMobProxyServer.stop()
