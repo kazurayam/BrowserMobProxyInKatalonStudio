@@ -5,13 +5,13 @@
    <tag></tag>
    <defaultProfile>true</defaultProfile>
    <GlobalVariableEntity>
-      <description>reference to the BrowserMob Proxy instance</description>
+      <description>reference to the BrowserMob Proxy instance, passed across multiple Test Cases</description>
       <initValue>null</initValue>
       <name>BrowserMobProxyServer</name>
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>
-      <initValue>'http://demoaut.katalon.com/'</initValue>
-      <name>url</name>
+      <initValue>'TS0'</initValue>
+      <name>TestSuiteShortName</name>
    </GlobalVariableEntity>
 </GlobalVariableEntities>

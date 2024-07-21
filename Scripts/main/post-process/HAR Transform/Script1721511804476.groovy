@@ -3,7 +3,7 @@
 import java.nio.charset.StandardCharsets
 import java.nio.file.Path
 
-import com.kazurayam.jsonflyweight.JsonFlyweightPrettyPrinter
+import com.kazurayam.jsonflyweight.FlyPrettyPrinter
 import com.kms.katalon.core.util.KeywordUtil
 
 import groovy.json.JsonOutput
@@ -49,7 +49,7 @@ Writer wrt =
 
 // pretty-print it and
 // save the result into the destination JSON file
-JsonFlyweightPrettyPrinter.prettyPrint(rdr, wrt)
+FlyPrettyPrinter.prettyPrint(rdr, wrt)
 
 
 // diagnose the size of input/output files
