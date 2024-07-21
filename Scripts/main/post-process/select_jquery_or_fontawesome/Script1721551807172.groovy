@@ -59,5 +59,6 @@ WebUI.callTestCase(findTestCase("Test Cases/main/post-process/HAR Transform"),
 					[
 						"inputHar": inputHar,
 						"templates": cls,
-						"outputJson": output
+						"outputJson": output,
+						"shouldBeLessThan": 20
 					])

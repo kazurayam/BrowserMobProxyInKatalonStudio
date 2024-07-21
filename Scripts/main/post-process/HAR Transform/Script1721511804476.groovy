@@ -20,6 +20,12 @@ assert templates instanceof Closure
 assert outputJson != null    // Path
 assert outputJson instanceof Path
 
+if (shouldBeLessThan != null) {
+	assert shouldBeLessThan instanceof Integer
+} else {
+	shouldBeLessThan = 10
+}
+
 
 // apply the transformer over the input HAR to get the result
 List<Map<String, Object>> result = templates.call(inputHar)
@@ -60,5 +66,5 @@ int perCent = Math.floor(outLength * 100 / harLength)
 KeywordUtil.logInfo String.format("input HAR   = %,10d bytes", harLength)
 KeywordUtil.logInfo String.format("output JSON = %,10d bytes (%d%%)", outLength, perCent)
 
-assert perCent < 10 :
-	"the new JSON is expected to be far smaller than the source HAR (less than 10%) but is not"
+assert perCent < shouldBeLessThan :
+	"the new JSON is expected to be far smaller than the source HAR (less than ${shouldBeLessThan}%) but is not"
