@@ -36,8 +36,8 @@ Measurement m1 = new Measurement.Builder("Processing a HAR file", ["Case"]).buil
 m1.before(["Case": "filtering"])
 List<Map<String, Object>> result = templates.call(inputHar)
 m1.after()
-KeywordUtil.logInfo("[HAR Transform] Filtering HAR took " + 
-	m1.getLastRecordDuration().toMillis() + " msecs")
+KeywordUtil.logInfo String.format("[HAR Transform] Filtering HAR took %,6d msecs",
+									m1.getLastRecordDuration().toMillis())
 
 // Re-construct a Map in the format of HAR
 def reconstructed = ["log":[

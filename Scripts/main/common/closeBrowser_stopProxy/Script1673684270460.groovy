@@ -31,19 +31,24 @@ if (GlobalVariable.BrowserMobProxyServer != null) {
 	Path tempFile = Files.createTempFile("har", ".tmp")
 	har.writeTo(Files.newOutputStream(tempFile))
 	m1.after()
+	
 	KeywordUtil.logInfo("[closeBrowser_stopProxy] getting the original HAR took " 
 		+ m1.getLastRecordDuration().toMillis() + " msecs")
-
+	KeywordUtil.logInfo(String.format("[closeBrowser_stopProxy] source HAR size = %,8d bytes", 
+										tempFile.toFile().length()))
+	
 	// pretty-print the json, save it into a planned file
 	m1.before(["Case": "pretty-print the HAR"])
 	Path f = projectDir.resolve("work")
 						.resolve(GlobalVariable.TestSuiteShortName + ".har")
 	Files.createDirectories(f.getParent())
 	int numLines = PP.prettyPrint(Files.newInputStream(tempFile), Files.newOutputStream(f))
-	KeywordUtil.logInfo "[closeBrowser_stopProxy] wrote the ${GlobalVariable.TestSuiteShortName}.har file"
-	KeywordUtil.logInfo String.format("[closeBrowser_stopProxy] #lines of HAR = %,8d lines", numLines)
 	m1.after()
-	KeywordUtil.logInfo("[closeBrowser_stopProxy] pretty-printing the HAR took " + m1.getLastRecordDuration().toMillis() + " msecs")
+	
+	KeywordUtil.logInfo "[closeBrowser_stopProxy] wrote the ${GlobalVariable.TestSuiteShortName}.har file"
+	KeywordUtil.logInfo String.format("[closeBrowser_stopProxy] pretty-printing the HAR took %,6d msecs", 
+										m1.getLastRecordDuration().toMillis())
+	KeywordUtil.logInfo String.format("[closeBrowser_stopProxy] #lines of HAR = %,8d lines", numLines)
 	
 	// write the report into a local file *.timekeepr.md
 	tk.report(projectDir.resolve("work").resolve("${GlobalVariable.TestSuiteShortName}.timekeeper.md"))

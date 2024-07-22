@@ -23,6 +23,7 @@ for (int i = 1; i <= h3List.size(); i++) {
 	WebUI.verifyElementPresent(tObj, 10);
 	WebUI.click(tObj)
 	WebUI.waitForPageLoad(5)
+	WebUI.delay(1)
 }
 
 WebUI.closeBrowser()
