@@ -4,6 +4,9 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Path
 
 import com.kazurayam.jsonflyweight.FlyPrettyPrinter
+import com.kazurayam.timekeeper.Measurement
+import com.kazurayam.timekeeper.Table
+import com.kazurayam.timekeeper.Timekeeper
 import com.kms.katalon.core.util.KeywordUtil
 
 import groovy.json.JsonOutput
@@ -26,9 +29,15 @@ if (shouldBeLessThan != null) {
 	shouldBeLessThan = 10
 }
 
+Timekeeper tk = new Timekeeper()
+Measurement m1 = new Measurement.Builder("Processing a HAR file", ["Case"]).build()
 
 // apply the transformer over the input HAR to get the result
+m1.before(["Case": "filtering"])
 List<Map<String, Object>> result = templates.call(inputHar)
+m1.after()
+KeywordUtil.logInfo("[HAR Transform] Filtering HAR took " + 
+	m1.getLastRecordDuration().toMillis() + " msecs")
 
 // Re-construct a Map in the format of HAR
 def reconstructed = ["log":[
@@ -57,7 +66,7 @@ Writer wrt =
 // save the selection result into the destination JSON file
 int numLines = FlyPrettyPrinter.prettyPrint(rdr, wrt)
 
-KeywordUtil.logInfo String.format("#lines of transform result = %,8d lines", numLines)
+KeywordUtil.logInfo String.format("[HAR Trasnform] #lines of transform result = %,8d lines", numLines)
 
 
 // diagnose the size of input/output files
@@ -65,8 +74,8 @@ int harLength = inputHar.toFile().length()
 int outLength = outputJson.toFile().length()
 int perCent = Math.floor(outLength * 100 / harLength)
 
-KeywordUtil.logInfo String.format("input HAR size   = %,10d bytes", harLength)
-KeywordUtil.logInfo String.format("output JSON size = %,10d bytes (%d%%)", outLength, perCent)
+KeywordUtil.logInfo String.format("[HAR Transform] input HAR size   = %,10d bytes", harLength)
+KeywordUtil.logInfo String.format("[HAR Trasnform] output JSON size = %,10d bytes (%d%%)", outLength, perCent)
 
 assert perCent < shouldBeLessThan :
 	"the new JSON is expected to be far smaller than the source HAR (less than ${shouldBeLessThan}%) but is not"

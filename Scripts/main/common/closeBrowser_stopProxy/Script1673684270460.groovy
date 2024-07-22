@@ -26,30 +26,29 @@ if (GlobalVariable.BrowserMobProxyServer != null) {
 	tk.add(new Table.Builder(m1).build())
 	
 	// get the HAR content out of the Browser MobProxy Server, save it into a temporary file
-		LocalDateTime beforeAction = LocalDateTime.now()
+	m1.before(["Case": "get HAR from BrowserMob Proxy"])
 	Har har = GlobalVariable.BrowserMobProxyServer.getHar()
 	Path tempFile = Files.createTempFile("har", ".tmp")
 	har.writeTo(Files.newOutputStream(tempFile))
-		LocalDateTime afterAction = LocalDateTime.now()
-		m1.recordDuration(["Case": "get HAR from BrowserMob Proxy"],
-			beforeAction, afterAction)
+	m1.after()
+	KeywordUtil.logInfo("[closeBrowser_stopProxy] getting the original HAR took " 
+		+ m1.getLastRecordDuration().toMillis() + " msecs")
 
 	// pretty-print the json, save it into a planned file
-		beforeAction = LocalDateTime.now()
+	m1.before(["Case": "pretty-print the HAR"])
 	Path f = projectDir.resolve("work")
 						.resolve(GlobalVariable.TestSuiteShortName + ".har")
 	Files.createDirectories(f.getParent())
 	int numLines = PP.prettyPrint(Files.newInputStream(tempFile), Files.newOutputStream(f))
-	KeywordUtil.logInfo "wrote the ${GlobalVariable.TestSuiteShortName}.har file"
-	KeywordUtil.logInfo String.format("#lines of HAR = %,8d lines", numLines)
+	KeywordUtil.logInfo "[closeBrowser_stopProxy] wrote the ${GlobalVariable.TestSuiteShortName}.har file"
+	KeywordUtil.logInfo String.format("[closeBrowser_stopProxy] #lines of HAR = %,8d lines", numLines)
+	m1.after()
+	KeywordUtil.logInfo("[closeBrowser_stopProxy] pretty-printing the HAR took " + m1.getLastRecordDuration().toMillis() + " msecs")
 	
-		afterAction = LocalDateTime.now()
-		m1.recordDuration(["Case": "pretty-print the HAR"],
-			beforeAction, afterAction)
-
+	// write the report into a local file *.timekeepr.md
+	tk.report(projectDir.resolve("work").resolve("${GlobalVariable.TestSuiteShortName}.timekeeper.md"))
+	
 	// stop the BrowserMob Proxy Server gracefully
 	GlobalVariable.BrowserMobProxyServer.stop()
 	GlobalVariable.BrowserMobProxyServer = null
-	
-	tk.report(projectDir.resolve("work").resolve("${GlobalVariable.TestSuiteShortName}.timekeeper.md"))
 }
