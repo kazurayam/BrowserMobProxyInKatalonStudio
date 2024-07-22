@@ -54,8 +54,10 @@ Writer wrt =
 		StandardCharsets.UTF_8)
 
 // pretty-print it and
-// save the result into the destination JSON file
-FlyPrettyPrinter.prettyPrint(rdr, wrt)
+// save the selection result into the destination JSON file
+int numLines = FlyPrettyPrinter.prettyPrint(rdr, wrt)
+
+KeywordUtil.logInfo String.format("#lines of transform result = %,8d lines", numLines)
 
 
 // diagnose the size of input/output files
@@ -63,8 +65,8 @@ int harLength = inputHar.toFile().length()
 int outLength = outputJson.toFile().length()
 int perCent = Math.floor(outLength * 100 / harLength)
 
-KeywordUtil.logInfo String.format("input HAR   = %,10d bytes", harLength)
-KeywordUtil.logInfo String.format("output JSON = %,10d bytes (%d%%)", outLength, perCent)
+KeywordUtil.logInfo String.format("input HAR size   = %,10d bytes", harLength)
+KeywordUtil.logInfo String.format("output JSON size = %,10d bytes (%d%%)", outLength, perCent)
 
 assert perCent < shouldBeLessThan :
 	"the new JSON is expected to be far smaller than the source HAR (less than ${shouldBeLessThan}%) but is not"

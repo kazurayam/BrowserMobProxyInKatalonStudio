@@ -1,15 +1,15 @@
-import com.kazurayam.timekeeper.Measurement
-import com.kazurayam.timekeeper.Table
-import com.kazurayam.timekeeper.Timekeeper
-
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDateTime
 
 import com.kazurayam.jsonflyweight.FlyPrettyPrinter as PP
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+import com.kazurayam.timekeeper.Measurement
+import com.kazurayam.timekeeper.Table
+import com.kazurayam.timekeeper.Timekeeper
 import com.kms.katalon.core.configuration.RunConfiguration
+import com.kms.katalon.core.util.KeywordUtil
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import net.lightbody.bmp.core.har.Har
@@ -39,8 +39,10 @@ if (GlobalVariable.BrowserMobProxyServer != null) {
 	Path f = projectDir.resolve("work")
 						.resolve(GlobalVariable.TestSuiteShortName + ".har")
 	Files.createDirectories(f.getParent())
-	PP.prettyPrint(Files.newInputStream(tempFile), Files.newOutputStream(f))
-	WebUI.comment("wrote the ${GlobalVariable.TestSuiteShortName}.har file")
+	int numLines = PP.prettyPrint(Files.newInputStream(tempFile), Files.newOutputStream(f))
+	KeywordUtil.logInfo "wrote the ${GlobalVariable.TestSuiteShortName}.har file"
+	KeywordUtil.logInfo String.format("#lines of HAR = %,8d lines", numLines)
+	
 		afterAction = LocalDateTime.now()
 		m1.recordDuration(["Case": "pretty-print the HAR"],
 			beforeAction, afterAction)

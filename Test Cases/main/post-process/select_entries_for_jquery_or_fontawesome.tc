@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>visit_duckduckgo_to_create_a_large_HAR</name>
+   <name>select_entries_for_jquery_or_fontawesome</name>
    <tag></tag>
    <comment></comment>
-   <testCaseGuid>9e2c0403-4083-4cf2-b542-a62119c783fd</testCaseGuid>
+   <testCaseGuid>675edd2a-5bea-43cb-9fd4-6c69b740d1a6</testCaseGuid>
 </TestCaseEntity>

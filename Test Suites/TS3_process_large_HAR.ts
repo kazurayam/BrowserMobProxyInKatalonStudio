@@ -22,7 +22,7 @@
       <guid>a084cebe-0ba8-4a24-8097-19b2e01f09bb</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/main/interactions/visit_duckduckgo_to_create_a_large_HAR</testCaseId>
+      <testCaseId>Test Cases/main/interactions/visit_github_to_create_a_large_HAR</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
@@ -36,7 +36,7 @@
       <guid>3534b694-de9e-430e-8e18-05616633b8a8</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/main/post-process/select_entries_that_contains_Dockerfile</testCaseId>
+      <testCaseId>Test Cases/main/post-process/select_entries_with_response_status_302</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
 </TestSuiteEntity>

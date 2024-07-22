@@ -12,6 +12,6 @@ repositories {
 
 dependencies {
   implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.9.0'
-  implementation "com.kazurayam:jsonflyweight:0.1.1-SNAPSHOT"
+  implementation "com.kazurayam:jsonflyweight:0.1.2-SNAPSHOT"
   implementation 'com.kazurayam:timekeeper:0.4.1'
 }
