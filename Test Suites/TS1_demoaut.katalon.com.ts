@@ -36,7 +36,7 @@
       <guid>7c986f28-4f2a-497e-82a6-3d01af924a5a</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/main/post-process/select_jquery_or_fontawesome</testCaseId>
+      <testCaseId>Test Cases/main/post-process/select_entries_of_jquery_or_fontawesome</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
 </TestSuiteEntity>

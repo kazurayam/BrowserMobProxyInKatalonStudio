@@ -1,4 +1,4 @@
-// BrowserMobProxyInKatalonStudio/Test Cases/prostprocess/select_entries_of_jquery.min.js
+// Test Cases/post-process/select_entries_that_contains_Dockerfile
 
 import static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
 
@@ -15,12 +15,6 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 
-/**
- * BrowserobProxyInKatalonStudio/Test Cases/transform_HAR_for_jquery.min.js
- * 
- * 
- * @author kazurayam
- */
 // Input
 Path projectDir = Paths.get(RunConfiguration.getProjectDir());
 Path inputHar = projectDir.resolve("work").resolve(GlobalVariable.TestSuiteShortName + ".har")
@@ -28,17 +22,12 @@ Path inputHar = projectDir.resolve("work").resolve(GlobalVariable.TestSuiteShort
 // specifeis how we use Jayway JsonPath to transform the input HAR
 Closure cls = { Path har ->
 	
-	// I am interested in a HTTP request of which URL contains a string ".jquery.min.js"
-	Filter filter1 = Filter.filter(
-		Criteria.where("request.url")
-				.regex(Pattern.compile('.*jquery\\.min\\.js')));
-	
-	// I am also interested in  "fontawesome-webfont.woff2"	
-	Filter filter2 = Filter.filter(
-		 Criteria.where("request.url")
-		 		.regex(Pattern.compile('.*fontawesome\\-webfont\\.woff2.*')));
-	
-	Filter filter = filter1.or(filter2)
+	// I am interested in a HTTP request of which Response contains a string "Dockerfile" somewhere in the content text
+	//Filter filter = Filter.filter(
+	//	Criteria.where("response.content.text")
+	//			.regex(Pattern.compile('.*html.*')));
+	Filter filter = Filter.filter(
+		Criteria.where("response.status").eq(302));
 	
 	// Now select interesting entries out of theHAR to create a much smaller json file
 	List<Map<String, Object>> result =
@@ -46,8 +35,6 @@ Closure cls = { Path har ->
 			.read("\$['log']['entries'][?]", filter)
 									// [?(...)] is a filter expression
 	return result
-	
-	// see https://www.baeldung.com/guide-to-jayway-jsonpath for more about Jayway JsonPath
 }
 
 // Output

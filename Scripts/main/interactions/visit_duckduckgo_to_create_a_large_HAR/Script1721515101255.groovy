@@ -7,31 +7,22 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 TestObject makeTestObject(String id, String xpath) {
 	TestObject tObj = new TestObject(id)
 	tObj.addProperty("xpath", ConditionType.EQUALS, xpath)
-	return tObj	
+	return tObj
 }
 
-String duckduckgo = 'https://duckduckgo.com/?q=BrowserMob+Proxy&ia=web'
+String searchEngine = 'https://github.com/search?q=browsermob%20proxy&type=repositories'
+String prefix = '//div[@data-testid="results-list"]'
 
-WebUI.navigateToUrl(duckduckgo)
+WebUI.navigateToUrl(searchEngine)
+WebUI.verifyElementPresent(makeTestObject("result-list", prefix), 10)
 
-WebUI.verifyElementPresent(
-	makeTestObject("section",
-		'//*[@id="react-layout"]/div/div/div/div/section[@data-testid="mainline"]'), 10)
-
-WebUI.verifyElementPresent(
-	makeTestObject("ol",
-		'//*[@id="react-layout"]/div/div/div/div/section[@data-testid="mainline"]/ol'), 10)
-
-List<WebElement> anchors = WebUI.findWebElements(
-	makeTestObject('anchors to external URLs', 
-		'//*[@id="react-layout"]/div/div/div/div/section[@data-testid="mainline"]/ol/li/article/div/div/a'), 10)
-
-println "anchors.size() = " + anchors.size()
-
-anchors.forEach { anchor ->
-	WebUI.navigateToUrl(anchor.getAttribute('href'))
-	WebUI.delay(3)
-	WebUI.back()	
+List<WebElement> h3List = WebUI.findWebElements(makeTestObject("h3s", prefix + '/div//h3'), 10)
+for (int i = 1; i <= h3List.size(); i++) {
+	WebUI.navigateToUrl(searchEngine)
+	TestObject tObj = makeTestObject("div[${i}]//h3", prefix + "/div[${i}]//h3")
+	WebUI.verifyElementPresent(tObj, 10);
+	WebUI.click(tObj)
+	WebUI.waitForPageLoad(5)
 }
 
 WebUI.closeBrowser()
