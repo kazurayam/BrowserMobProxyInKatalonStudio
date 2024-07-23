@@ -5,11 +5,13 @@ import static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.regex.Pattern
 
 import com.jayway.jsonpath.Criteria
 import com.jayway.jsonpath.Filter
 import com.jayway.jsonpath.JsonPath
+import com.kazurayam.timekeeper.Measurement
+import com.kazurayam.timekeeper.Table
+import com.kazurayam.timekeeper.Timekeeper
 import com.kms.katalon.core.configuration.RunConfiguration
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
@@ -49,3 +51,4 @@ WebUI.callTestCase(findTestCase("Test Cases/main/post-process/HAR Transform"),
 						"outputJson": output,
 						"shouldBeLessThan": 20
 					])
+

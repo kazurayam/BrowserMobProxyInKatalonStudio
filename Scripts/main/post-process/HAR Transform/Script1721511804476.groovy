@@ -12,6 +12,7 @@ import com.kms.katalon.core.util.KeywordUtil
 import groovy.json.JsonOutput
 import groovy.lang.Closure
 
+import internal.GlobalVariable
 
 // check the parameters given by the caller Test Case
 assert inputHar != null
@@ -30,14 +31,21 @@ if (shouldBeLessThan != null) {
 }
 
 Timekeeper tk = new Timekeeper()
-Measurement m1 = new Measurement.Builder("Processing a HAR file", ["Case"]).build()
+Measurement m1 = new Measurement.Builder("Transforming a HAR file", ["Case"]).build()
+tk.add(new Table.Builder(m1).build())
 
 // apply the transformer over the input HAR to get the result
-m1.before(["Case": "filtering"])
+m1.before(["Case": GlobalVariable.TestCaseShortName])
 List<Map<String, Object>> result = templates.call(inputHar)
 m1.after()
+
 KeywordUtil.logInfo String.format("[HAR Transform] Filtering HAR took %,6d msecs",
 									m1.getLastRecordDuration().toMillis())
+
+String reportName = GlobalVariable.TestSuiteShortName + ".transform.md"
+Path reportFile = outputJson.getParent().resolve(reportName)
+tk.report(reportFile)
+KeywordUtil.logInfo("wrote " + reportFile)
 
 // Re-construct a Map in the format of HAR
 def reconstructed = ["log":[

@@ -8,9 +8,15 @@ import internal.GlobalVariable
 class TestListener {
 	
 	@BeforeTestSuite
-	def sampleBeforeTestSuite(TestSuiteContext testSuiteContext) {
+	def beforeTestSuite(TestSuiteContext testSuiteContext) {
 		GlobalVariable.TestSuiteShortName = 
 			toTestSuiteShortName(testSuiteContext.getTestSuiteId())
+	}
+	
+	@BeforeTestCase
+	def beforeTestCase(TestCaseContext testCaseContext) {
+		GlobalVariable.TestCaseShortName =
+			toTestCaseShortName(testCaseContext.getTestCaseId())	
 	}
 	
 	/**
@@ -24,6 +30,10 @@ class TestListener {
 	 */
 	private String toTestSuiteShortName(String testSuiteId) {
 		return substringAfter(testSuiteId, "Test Suites/").replaceAll("/", "_")
+	}
+	
+	private String toTestCaseShortName(String testCaseId) {
+		return substringAfter(testCaseId, "Test Cases/").replaceAll("/", "_")
 	}
 	
 	/**
