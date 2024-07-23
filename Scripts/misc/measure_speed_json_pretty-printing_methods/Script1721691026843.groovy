@@ -5,6 +5,7 @@ import java.nio.file.Paths
 import com.kazurayam.jsonflyweight.FlyPrettyPrinter
 import com.kazurayam.timekeeper.Measurement
 import com.kazurayam.timekeeper.Timekeeper
+import com.kazurayam.timekeeper.Table
 import com.kms.katalon.core.configuration.RunConfiguration
 
 import groovy.json.JsonOutput
@@ -31,9 +32,7 @@ Path sourceHAR = projectDir.resolve("work/TS3_process_large_HAR.har")
 println String.format("%-${WD}s : %11.2f Megabytes", "source HAR file size",
 	sourceHAR.toFile().length() / 1000000)  // 11 Megabytes
 
-Timekeeper tk = new Timekeeper()
 Measurement m1 = new Measurement.Builder("Pretty printing a large JSON", ["Case"]).build()
-
 
 if (targets.contains("gson")) {
 	// Gson
@@ -97,3 +96,7 @@ if (targets.contains("groovy")) {
 		m1.getLastRecordDurationMillis())
 }
 
+Timekeeper tk = new Timekeeper.Builder()
+				.table(new Table.Builder(m1).build()).build()
+Path report = projectDir.resolve("work/measure_speed_json_pretty_printing_methods.md")
+tk.report(report)

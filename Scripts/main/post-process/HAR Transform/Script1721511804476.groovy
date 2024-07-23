@@ -30,9 +30,7 @@ if (shouldBeLessThan != null) {
 	shouldBeLessThan = 10
 }
 
-Timekeeper tk = new Timekeeper()
 Measurement m1 = new Measurement.Builder("Transforming a HAR file", ["Case"]).build()
-tk.add(new Table.Builder(m1).build())
 
 // apply the transformer over the input HAR to get the result
 m1.before(["Case": GlobalVariable.TestCaseShortName])
@@ -44,7 +42,11 @@ KeywordUtil.logInfo String.format("[HAR Transform] Filtering HAR took %,6d msecs
 
 String reportName = GlobalVariable.TestSuiteShortName + ".transform.md"
 Path reportFile = outputJson.getParent().resolve(reportName)
+Timekeeper tk = new Timekeeper.Builder()
+					.table(new Table.Builder(m1).build())
+					.build()
 tk.report(reportFile)
+
 KeywordUtil.logInfo("wrote " + reportFile)
 
 // Re-construct a Map in the format of HAR

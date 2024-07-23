@@ -21,10 +21,9 @@ WebUI.closeBrowser()
 
 if (GlobalVariable.BrowserMobProxyServer != null) {
 	
-	Timekeeper tk = new Timekeeper()
-	Measurement m1 = new Measurement.Builder("Acquiring a HAR file from BrowserMob Proxy",
-		["Case"]).build()
-	tk.add(new Table.Builder(m1).build())
+	Measurement m1 = 
+		new Measurement.Builder("Acquiring a HAR file from BrowserMob Proxy",["Case"])
+				.build()
 	
 	// get the HAR content out of the Browser MobProxy Server, save it into a temporary file
 	m1.before(["Case": "get HAR from BrowserMob Proxy"])
@@ -53,7 +52,11 @@ if (GlobalVariable.BrowserMobProxyServer != null) {
 	KeywordUtil.logInfo String.format("[closeBrowser_stopProxy] #lines of HAR = %,8d lines", numLines)
 	
 	// write the report into a local file *.timekeepr.md
-	tk.report(projectDir.resolve("work").resolve("${GlobalVariable.TestSuiteShortName}.aquiring.md"))
+	Timekeeper tk = new Timekeeper.Builder()
+						.table(new Table.Builder(m1).build())
+						.build()
+	Path reportFile = projectDir.resolve("work").resolve("${GlobalVariable.TestSuiteShortName}.aquiring.md") 
+	tk.report(reportFile)
 	
 	// stop the BrowserMob Proxy Server gracefully
 	GlobalVariable.BrowserMobProxyServer.stop()
