@@ -17,7 +17,11 @@ import internal.GlobalVariable
 
 // Input
 Path projectDir = Paths.get(RunConfiguration.getProjectDir());
-Path inputHar = projectDir.resolve("work").resolve(GlobalVariable.TestSuiteShortName + ".har")
+Path inputHar = projectDir.resolve("work").resolve(GlobalVariable.TestSuiteShortName + "-pretty.har")
+
+// Output
+Path output = projectDir.resolve("work").resolve(GlobalVariable.TestSuiteShortName + "-selection.har")
+Files.createDirectories(output.getParent())
 
 // specifeis how we use Jayway JsonPath to transform the input HAR
 Closure cls = { Path har ->
@@ -43,10 +47,6 @@ Closure cls = { Path har ->
 	
 	// see https://www.baeldung.com/guide-to-jayway-jsonpath for more about Jayway JsonPath
 }
-
-// Output
-Path output = projectDir.resolve("work").resolve(GlobalVariable.TestSuiteShortName + ".selection.json")
-Files.createDirectories(output.getParent())
 
 // apply the templates which drive Jayway JsonPath
 WebUI.callTestCase(findTestCase("Test Cases/main/post-process/HAR Transform"),

@@ -19,10 +19,10 @@
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
-      <guid>a084cebe-0ba8-4a24-8097-19b2e01f09bb</guid>
+      <guid>0333faea-8dfa-4f61-bd53-05ca8d917132</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>false</isRun>
-      <testCaseId>Test Cases/main/interactions/visit_github_to_create_a_large_HAR</testCaseId>
+      <testCaseId>Test Cases/main/interactions/visit_duckduckgo_to_create_a_large_HAR</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>

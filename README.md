@@ -34,41 +34,77 @@ Every Katalon Studio project has `.classpath` file which list all the built-in j
 ...
 ```
 
-## Demo Test Suite
+## Demonstration
 
-Try running the `Test Suites/TS1_WebUI.openBrowser`, which comprises with 3 Test Case scripts.
+Try running the `Test Suites/TS1_demoaut.katalon.com`, which comprises with 4 Test Case scripts.
 
-1. [Test Cases/startProxy_WebUI.openBrowser](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/startProxy_WebUI.openBrowser/Script1721103602049.groovy)
-2. [Test Cases/TestStuff1]()
-3. [Test Cases/closeBrowser_stopProxy]()
+### [Test Cases/main/common/startProxy_WebUI.openBrowser](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/main/common/startProxy_WebUI.openBrowser/Script1721103602049.groovy)
 
-### `startProxy_WebUI.openbBrowser`
+This script does the following:
 
-1. starts a process of BrowserMob Proxy Server.
-2. opens a web browser using `WebUI.openBrowser()` keyword. Only Chrome and Chrome (headless) is supported.
+1. starts a process of BrowserMob Proxy Server on the localhost.
+2. opens a web browser using `WebUI.openBrowser()` keyword. The sample project supports only Chrome and Chrome (headless). To support other types of browsers, for example FireFox, you need to rewrite the line#26-35 of `startProxy_WebUI.openBrowser' script.
 3. configures the browser so that it communicate with the target URL via proxy (= BrowserMob Proxy Server)
 
-### `TestStuff1`
+This step will take 5 seconds to finish.
 
-An usual Katalon Test Case. It navigates to a URL `http://demoauto.katalon.com` and operates on it.
+### [Test Cases/main/interactions/visit_demoaut.katalon.com](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/main/interactions/visit_demoaut.katalon.com/Script1721514910231.groovy)
 
-### `closeBrowser_stopProxy`
+This is an usual Katalon Test Case. It navigates to a URL `http://demoauto.katalon.com` and operates on the web pages using `WebUI.*` keywords. It contains nothing special.
 
-1. closes browser window
-2. ask the BrowserMob Proxy Server for the HAR content which includes all of HTTP requests and responses in JSON format. Save the HAR into a local file.
-3. stops the BrowserMob Proxy Server.
+This step will take 10+α seconds to finish.
 
-When `TS1_WebUI.openBrowser` finished, you will find a file `<projectDir>/sample.har`.
+### [Test Cases/main/common/closeBrowser_stop](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/main/common/closeBrowser_stopProxy/Script1673684270460.groovy)
 
-## How to view the HAR file
+This script does the following:
 
-The `sample.jar` file will be a very large JSON text file. It is difficult to see it and grasp overall in a text editor. You would need a tailored viewer for HAR file. I would recommend you to use [Visual Studio Code](https://code.visualstudio.com/) with [HAR Viewer](https://marketplace.visualstudio.com/items?itemName=unclebeast.har-viewer) plugin installed. The following image shows an example:
+1. Closes the browser window
+2. Asks the BrowserMob Proxy Server for a HTTP Archive. The HAR will includes all HTTP requests and responses. The HAR is JSON-formmated.
+3. Performs "pretty print" the HAR (insert newlines and indentations). Saves it into a local file.
+4. Stops the BrowserMob Proxy Server.
+
+This step will take 4 seconds to finish.
+
+When this step finished, you will find 2 files created
+
+- `<projectDir>/work/TS1_demoaut.katalon.com-source.har`.
+- `<projectDir>/work/TS1_demoaut.katalon.com-pretty.har`
+
+```
+cd :~/BrowserMobProxyInKatalonStudio (develop *)
+$ ls -la work | grep TS1
+-rw-r--r--   1 kazurayam  staff     959232  7 24 17:00 TS1_demoaut.katalon.com-pretty.har
+-rw-r--r--   1 kazurayam  staff     905344  7 24 17:00 TS1_demoaut.katalon.com-source.har
+```
+
+The `*-source.har` file is the original HAR provided by BrowserMob Proxy just as provided.
+
+The script pretty-printed (insert newlines, insert indentations) and saved into the `-pretty.har` file. The original 900MB line is broken down into 4000 lines by [com.kazurayam.jsonflyweight.JsonFlyweight](https://github.com/kazurayam/JsonFlyweight), a JSON pretty-printer library that I developped.
+
+#### CAUTION!
+
+Don't open the 1-line HAR file using text editor in Katalon Studio! Don't double-click the `-source.har` file. If you do so, Katalon Studio will hang. You will see a loading icon ![loading](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/images/loading-42-1.gif) rotating forever. You will have to kill Katalon Studio and restart it.
+
+Why the text editor in KS hangs? --- The HAR file provided by BrowserMob Proxy is a single line of 900 megabytes without any newline. A line of 900 megabyte surprises primitive text editors without a word-wrapping feature implemented.
+
+By the way, you can safely open the `-source.har` file using VSCode with word-wrapping. Excellence of VSCode!
+
+The `sample.jar` file will be a very large JSON text file. You can't see it and grasp the content using a text editor. You would need a tailored viewer for HAR file. I would recommend you to use [Visual Studio Code](https://code.visualstudio.com/) with [HAR Viewer](https://marketplace.visualstudio.com/items?itemName=unclebeast.har-viewer) plugin installed. The following image shows an example:
 
 ![VSCode HAR Viewer](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/images/VSCode_HARViewer.png)
 
-## How to post-process the HAR file as JSON using Jayway JsonPath
+If you want to deal with very large JSON files like HTTP Archive in your Katalon project, you certainly need to open the project in VSCode and work. Katalon Studio is not enough for HAR.
 
-Additionally, I want to automate verifying the content of HAR file. I expect that the `sample.har` file contains a record of a HTTP request to a url that ends with `jquery.min.js`.
+### [Test Cases/main/post-process/select_entries_for_jquery_or_fontawesome](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/main/post-process/select_entries_for_jquery_or_fontawesome/Script1721610779882.groovy)
+
+The 4th script in the "Test Suites/TS1_demoaut.katalon.com" will transform the large HAR file into a smaller JSON file.
+
+What did I do here? --- I want to select two types of HTTP Request-Response interactions out of the lart HAR.
+
+1. HTTP Requests to the URL that ends with "`jquery.min.js`"
+2. HTTP Requests to the URL that contains "`fontawesome`"
+
+I want to transform a large JSON into a smaller one. I want to select the portion that I am interested in, and I want to strip off the rest. Let me illustrate it:
 
 ```
 {
@@ -81,29 +117,80 @@ Additionally, I want to automate verifying the content of HAR file. I expect tha
           "method": "GET",
           "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js",
           ...
+        },
+        "response": {
+          ...
         }
-      }
+      },
+      ...
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2?v=4.7.0",
+          ...
+        },
+        "response": {
+          ...
+        }
+      },
       ...
     ]
   }
 }
 ```
 
-How can I do it?
+The script [Test Cases/main/post-process/select_entries_for_jquery_or_fontawesome](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/main/post-process/select_entries_for_jquery_or_fontawesome/Script1721610779882.groovy) does exactly what I wanted to do. I got a success.
 
-There could be many ways to meet this requirement.
+When the script is executed, you will find a file with name `*-selection.har` will be created. Please find that the size of `*-selection.har` is much smaller than the `*-source.har` file.
 
-I tried to solve this problem using [Jaywa JsonPath](https://github.com/json-path/JsonPath) library.
+```
+$ ls -la work | grep TS1
+-rw-r--r--   1 kazuakiurayama  staff     959232  7 24 17:00 TS1_demoaut.katalon.com-pretty.har
+-rw-r--r--   1 kazuakiurayama  staff     905344  7 24 17:00 TS1_demoaut.katalon.com-source.har
+-rw-r--r--   1 kazuakiurayama  staff     154419  7 24 17:00 TS1_demoaut.katalon.com-selection.har
+```
 
-You can find my solution in the code of [Test Cases/process_har_with_jsonpath](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/tree/main/Scripts/process_har_with_jsonpath/Script1676083293661.groovy).
+How can I do it? --- Please read the source code and find out how to. What's most interesting would be this part:
 
-The following screenshot shows how the demo `TS1` runs with verifying HAR file.
+```
+// specify how I use Jayway JsonPath to transform the input HAR
+Closure cls = { Path har ->
+	// I am interested in a HTTP request of which URL contains a string ".jquery.min.js"
+	Filter filter1 = Filter.filter(
+		Criteria.where("request.url")
+				.regex(Pattern.compile('.*jquery\\.min\\.js')));
 
-![verify HAR](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/images/TS1_with_verify_HAR.png)
+	// I am also interested in  "fontawesome-webfont.woff2"
+	Filter filter2 = Filter.filter(
+		 Criteria.where("request.url")
+		 		.regex(Pattern.compile('.*fontawesome\\-webfont\\.woff2.*')));
 
-The Test Case `process_har_with_jsonpath` verifies if the `sample.har` file contains a URL that ends with `jquery.min.js`. Of course you can modify the condition as you want. Please study the code and the Jayway JsonPath documentation.
+	Filter filter = filter1.or(filter2)
 
-### How to import required jar files.
+	// Now select interesting entries out of theHAR to create a much smaller json file
+	List<Map<String, Object>> result =
+		JsonPath.parse(Files.newInputStream(har))
+			.read("\$['log']['entries'][?]", filter)
+									// [?(...)] is a filter expression
+	return result
+}
+
+// apply the templates which drive Jayway JsonPath
+WebUI.callTestCase(findTestCase("Test Cases/main/post-process/HAR Transform"),
+					[
+						"inputHar": inputHar,
+						"templates": cls,
+						"outputJson": output,
+						"shouldBeLessThan": 20
+					])
+```
+
+This code fragment looks like a magic spell. I employed [Jayway JsonPath](https://github.com/json-path/JsonPath) library. There are sevelral articles about JsonPath on the net.
+
+- [Introduction to JsonPath, Baeldung](https://www.baeldung.com/guide-to-jayway-jsonpath) --- this article introduce me to JsonPath. It was enough for me.
+- [Comprehensive Guide to JsonPath, CODDIPA](https://codippa.com/jayway-jsonpath-java/)
+
+## How to import required jar files.
 
 Katalon Studio does not bundle the jar files required to use the Jayway JsonPath. You need to import external jar files from Maven Central repository into the `<projectDir>/Drivers` folder. The following document explains how to do it:
 
@@ -127,15 +214,11 @@ repositories {
 
 dependencies {
   implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.9.0'
-  implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.13'
-  implementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.13'
 }
 
 ```
 
-And you want to execute in the command line:
-
-First, you want to change the current directory to the home directory of your Katalon project. For example:
+And you want to execute some commands in the command line. First, you want to change the current directory to the home directory of your Katalon project.
 
 ```
 $ cd ~/BrowserMobProxyInKatalonStudio
@@ -158,120 +241,9 @@ drwxr-xr-x  31 kazuakiurayama  staff     992  2 11 11:21 ..
 -rw-r--r--   1 kazuakiurayama  staff  121790  2 11 11:21 katalon_generated_asm-9.3.jar
 -rw-r--r--   1 kazuakiurayama  staff  271159  2 11 11:21 katalon_generated_json-path-2.9.0.jar
 -rw-r--r--   1 kazuakiurayama  staff  119227  2 11 11:21 katalon_generated_json-smart-2.5.0.jar
--rw-r--r--   1 kazuakiurayama  staff   62531  2 11 11:21 katalon_generated_slf4j-api-2.0.13.jar
--rw-r--r--   1 kazuakiurayama  staff   15239  2 11 11:21 katalon_generated_slf4j-simple-2.0.13.jar
 ```
 
-Now you are ready to run the `Test Suites/TS1` which indirectly execute the whole set of test cases.
-
-## process HAR using JMESPath
-
-An alternative way to process JSON could be JMESPath.
-
-- https://jmespath.org/
-
-JMESPath Python implementation is used by AWS Commandline Interface which I am used to.
-
-JMESPath Java implementation is available at
-
-- https://github.com/burtcorp/jmespath-java
-
-I tried to implement [Test Cases/process_har_with_JMESPath](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/tree/main/Scripts/process_har_with_JMESPath/Script1676251084800.groovy) and succeeded.
-
-I added a few lines in the build.gradle
-
-```
-  implementation group: 'com.amazonaws', name: 'jmespath-java', version: '1.12.738'
-  implementation group: 'io.burt', name: 'jmespath', version: '0.6.0', ext: 'pom'
-  implementation group: 'io.burt', name: 'jmespath-jackson', version: '0.6.0'
-```
-
-and did
-
-```
-$ gradle katalonCopyDependencies
-```
-
-then I got a few jar files added in the `Drivers` folder.
-
-I wrote the `Test Cases/process_har_with_JMESPath`, which worked just the same as `Test Cases/process_har_with_jsonpath`.
-
-## Process HAR using Jackson Streaming API
-
-How large the sample.har is?
-
-```
-$ wc sample.har
-    4152   10745 1017938 sample.har
-```
-
-The sample.har files has 4152 lines, 10745 words, 1017938 characters. Well, it's large. Now I want to pick up all URL string contained in the sample.har file. How can I do it? [Jackson Streaming API](https://www.baeldung.com/jackson-streaming-api) is an ideal solution for this problem.
-
-I made a [`Test Cases/process_har_with_streaming_api`](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/process_har_with_streaming_api/Script1720675301367.groovy)
-
-```
-import java.nio.file.Path
-import java.nio.file.Paths
-
-import com.fasterxml.jackson.core.JsonFactory
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.core.JsonToken
-import com.kms.katalon.core.configuration.RunConfiguration
-
-/**
- * https://www.baeldung.com/jackson-streaming-api
- */
-Path projectDir = Paths.get(RunConfiguration.getProjectDir())
-Path har = projectDir.resolve("sample.har")
-
-JsonFactory jfactory = new JsonFactory()
-JsonParser jParser = jfactory.createParser(har.toFile());
-
-SortedSet<String> urls = new TreeSet<>();
-while (jParser.nextToken() != null) {
-	if ("url".equals(jParser.getCurrentName())) {
-		jParser.nextToken()
-		urls.add(jParser.getText());
-	}
-}
-jParser.close()
-
-urls.forEach { url ->
-	println url
-}
-```
-
-As you see, this code uses the [`Jackson Core`](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core/2.14.2) library. Katalon Studio bundles the jar of `Jackson Core`; so that you do not have to add any external jar.
-
-When I ran this Test Case, I got the following output in the console:
-
-```
-2024-07-11 15:06:58.351 INFO  c.k.katalon.core.main.TestCaseExecutor   - --------------------
-2024-07-11 15:06:58.354 INFO  c.k.katalon.core.main.TestCaseExecutor   - START Test Cases/process_har_with_streaming_api
-http://demoaut.katalon.com/
-https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css
-https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js
-https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css
-https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2?v=4.7.0
-https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js
-https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css
-https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/fonts/glyphicons-halflings-regular.woff2
-https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js
-https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic
-https://fonts.gstatic.com/s/sourcesanspro/v22/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7lujVj9w.woff2
-https://fonts.gstatic.com/s/sourcesanspro/v22/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu3cOWxw.woff2
-https://fonts.gstatic.com/s/sourcesanspro/v22/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu3cOWxw.woff2
-https://katalon-demo-cura.herokuapp.com/
-https://katalon-demo-cura.herokuapp.com//css/theme.css
-https://katalon-demo-cura.herokuapp.com//img/header.jpg
-https://katalon-demo-cura.herokuapp.com//js/theme.js
-https://katalon-demo-cura.herokuapp.com/appointment.php
-https://katalon-demo-cura.herokuapp.com/authenticate.php
-https://katalon-demo-cura.herokuapp.com/profile.php
-2024-07-11 15:07:23.338 INFO  c.k.katalon.core.main.TestCaseExecutor   - END Test Cases/process_har_with_streaming_api
-```
-
-This run took 25 seconds to finish. Well, reasonable speed, I think. Not too slow, not too fast.
+Now you are ready to run the `Test Suites/TS1_demoaut.katalon.com`.
 
 ## Conclusion
 

@@ -3,7 +3,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDateTime
 
-import com.kazurayam.jsonflyweight.FlyPrettyPrinter as PP
+import com.kazurayam.jsonflyweight.JsonFlyweight
 import com.kazurayam.timekeeper.Measurement
 import com.kazurayam.timekeeper.Table
 import com.kazurayam.timekeeper.Timekeeper
@@ -29,7 +29,7 @@ if (GlobalVariable.BrowserMobProxyServer != null) {
 	m1.before(["Case": "get HAR from BrowserMob Proxy"])
 	Har har = GlobalVariable.BrowserMobProxyServer.getHar()
 	Path sourceFile = projectDir.resolve("work")
-						.resolve(GlobalVariable.TestSuiteShortName + ".har")
+						.resolve(GlobalVariable.TestSuiteShortName + "-source.har")
 	har.writeTo(Files.newOutputStream(sourceFile))
 	m1.after()
 	
@@ -41,9 +41,9 @@ if (GlobalVariable.BrowserMobProxyServer != null) {
 	// pretty-print the json, save it into a planned file
 	m1.before(["Case": "pretty-print the HAR"])
 	Path ppFile = projectDir.resolve("work")
-						.resolve(GlobalVariable.TestSuiteShortName + ".pp.har")
+						.resolve(GlobalVariable.TestSuiteShortName + "-pretty.har")
 	Files.createDirectories(ppFile.getParent())
-	int numLines = PP.prettyPrint(Files.newInputStream(sourceFile), Files.newOutputStream(ppFile))
+	int numLines = JsonFlyweight.prettyPrint(Files.newInputStream(sourceFile), Files.newOutputStream(ppFile))
 	m1.after()
 	
 	KeywordUtil.logInfo "[closeBrowser_stopProxy] wrote the ${GlobalVariable.TestSuiteShortName}.pp.har file"
