@@ -3,17 +3,15 @@ plugins {
   id "com.katalon.gradle-plugin" version "0.1.1"
 }
 
-version="1.6.0"
+version="2.0.1-SNAPSHOT"
 
 repositories {
   mavenCentral()
+  mavenLocal()
 }
 
 dependencies {
   implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.9.0'
-  implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.13'
-  implementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.13'
-  implementation group: 'com.amazonaws', name: 'jmespath-java', version: '1.12.738'
-  implementation group: 'io.burt', name: 'jmespath', version: '0.6.0', ext: 'pom'
-  implementation group: 'io.burt', name: 'jmespath-jackson', version: '0.6.0'
+  implementation "com.kazurayam:jsonflyweight:0.1.5"
+  implementation 'com.kazurayam:timekeeper:0.5.0'
 }

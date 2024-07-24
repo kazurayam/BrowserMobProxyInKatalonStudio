@@ -31,12 +31,11 @@ switch (driverType) {
 		WebUI.openBrowser('')
 		break;
 	default:
-		bmpServer.stop()
 		throw new IllegalStateException("Only Chrome or Chrome (headless) are supported");
 }
 
 /*
- * See https://katalon-studio-8-x--docs-production-katalon.netlify.app/docs/create-tests/manage-projects/project-settings/desired-capabilities/pass-desired-capabilities-at-runtime-in-katalon-studio	
+ * See https://katalon-studio-8-x--docs-production-katalon.netlify.app/docs/create-tests/manage-projects/project-settings/desired-capabilities/pass-desired-capabilities-at-runtime-in-katalon-studio
  */
 def mergeDesiredCapabilities(DesiredCapabilities capabilities) {
 	capabilities.asMap().forEach { key, value ->

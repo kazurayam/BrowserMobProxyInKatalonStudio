@@ -5,13 +5,18 @@
    <tag></tag>
    <defaultProfile>true</defaultProfile>
    <GlobalVariableEntity>
-      <description>reference to the BrowserMob Proxy instance</description>
+      <description>reference to the BrowserMob Proxy instance, passed across multiple Test Cases</description>
       <initValue>null</initValue>
       <name>BrowserMobProxyServer</name>
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>
-      <initValue>'http://demoaut.katalon.com/'</initValue>
-      <name>url</name>
+      <initValue>'TS3_process_large_HAR'</initValue>
+      <name>TestSuiteShortName</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'select_entries_with_response_status_302'</initValue>
+      <name>TestCaseShortName</name>
    </GlobalVariableEntity>
 </GlobalVariableEntities>

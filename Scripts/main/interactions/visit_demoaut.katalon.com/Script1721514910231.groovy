@@ -4,7 +4,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 
-WebUI.navigateToUrl(GlobalVariable.url)
+WebUI.navigateToUrl('http://demoaut.katalon.com/')
 
 WebUI.click(findTestObject('Object Repository/TC1/Page_CURA Healthcare Service/a_Make Appointment'))
 
