@@ -23,9 +23,8 @@ Path inputHar = projectDir.resolve("work").resolve(GlobalVariable.TestSuiteShort
 Path output = projectDir.resolve("work").resolve(GlobalVariable.TestSuiteShortName + "-selection.har")
 Files.createDirectories(output.getParent())
 
-// specifeis how we use Jayway JsonPath to transform the input HAR
+// specify how I use Jayway JsonPath to transform the input HAR
 Closure cls = { Path har ->
-	
 	// I am interested in a HTTP request of which URL contains a string ".jquery.min.js"
 	Filter filter1 = Filter.filter(
 		Criteria.where("request.url")
@@ -44,8 +43,6 @@ Closure cls = { Path har ->
 			.read("\$['log']['entries'][?]", filter)
 									// [?(...)] is a filter expression
 	return result
-	
-	// see https://www.baeldung.com/guide-to-jayway-jsonpath for more about Jayway JsonPath
 }
 
 // apply the templates which drive Jayway JsonPath
