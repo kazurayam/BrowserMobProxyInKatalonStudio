@@ -63,8 +63,8 @@ This step will take 10+α seconds to finish.
 This script does the following:
 
 1. Closes the browser window
-2. Asks the BrowserMob Proxy Server for a HTTP Archive. The HAR will includes all HTTP requests and responses. The HAR is JSON-formmated.
-3. Performs "pretty print" the HAR (insert newlines and indentations). Saves it into a local file.
+2. Asks the BrowserMob Proxy Server for a HTTP Archive. The HAR will includes all HTTP requests and responses. The HAR is JSON-formatted.
+3. Performs "pretty print" the HAR (insert newlines and indentations). Saves the JSON into a local file.
 4. Stops the BrowserMob Proxy Server.
 
 This step will take 4 seconds to finish.
@@ -81,34 +81,34 @@ $ ls -la work | grep TS1
 -rw-r--r--   1 kazurayam  staff     905344  7 24 17:00 TS1_demoaut.katalon.com-source.har
 ```
 
-The `*-source.har` file is the original HAR provided by BrowserMob Proxy just as provided.
+The `*-source.har` file is the original HAR provided by BrowserMob Proxy, just as provided.
 
-The script pretty-printed (insert newlines, insert indentations) and saved into the `-pretty.har` file. The original 900MB line is broken down into 4000 lines by [com.kazurayam.jsonflyweight.JsonFlyweight](https://github.com/kazurayam/JsonFlyweight), a JSON pretty-printer library that I developped.
+The script pretty-printed (insert newlines, insert indentations) and saved into the `-pretty.har` file. The original 900MB is broken down into 4000 lines by [com.kazurayam.jsonflyweight.JsonFlyweight](https://github.com/kazurayam/JsonFlyweight), a JSON pretty-printer library that I developped.
 
 #### CAUTION!
 
-Don't open the 1-line HAR file using text editor in Katalon Studio! Don't double-click the `-source.har` file. If you do so, Katalon Studio will hang. You will see a loading icon ![loading](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/images/loading-42-1.gif) rotating forever. You will have to kill Katalon Studio and restart it.
+Don't open the `*-source.har` file using text editor in Katalon Studio! If you double-click it, our poor Katalon Studio will hang. You will see a loading icon ![loading](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/images/loading-42-1.gif) rotating forever. You will have to kill Katalon Studio and restart it.
 
-Why the text editor in KS hangs? --- The HAR file provided by BrowserMob Proxy is a single line of 900 megabytes without any newline. A line of 900 megabyte surprises primitive text editors without a word-wrapping feature implemented.
+Why KS hangs up due to `*-source.har`? --- The HAR file provided by BrowserMob Proxy is a single line of 900 megabytes without any newline. A line of 900 megabyte surprises primitive text editors without any word-wrapping feature.
 
 By the way, you can safely open the `-source.har` file using VSCode with word-wrapping. Excellence of VSCode!
 
-The `sample.jar` file will be a very large JSON text file. You can't see it and grasp the content using a text editor. You would need a tailored viewer for HAR file. I would recommend you to use [Visual Studio Code](https://code.visualstudio.com/) with [HAR Viewer](https://marketplace.visualstudio.com/items?itemName=unclebeast.har-viewer) plugin installed. The following image shows an example:
+The `TS1_demoaut.katalon.com-source.jar` file will be a very large JSON text file. Using a text editor, you can't understand the content of HAR. You would need a tailored viewer for HAR file. I would recommend you to use [Visual Studio Code](https://code.visualstudio.com/) with [HAR Viewer](https://marketplace.visualstudio.com/items?itemName=unclebeast.har-viewer) plugin installed. The following image shows an example:
 
 ![VSCode HAR Viewer](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/images/VSCode_HARViewer.png)
 
-If you want to deal with very large JSON files like HTTP Archive in your Katalon project, you certainly need to open the project in VSCode and work. Katalon Studio is not enough for HAR.
+If you want to deal with very large JSON files like HTTP Archive in your Katalon project, you would certainly need to VSCode. Katalon Studio is not enough for working with HAR.
 
 ### [Test Cases/main/post-process/select_entries_for_jquery_or_fontawesome](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/main/post-process/select_entries_for_jquery_or_fontawesome/Script1721610779882.groovy)
 
 The 4th script in the "Test Suites/TS1_demoaut.katalon.com" will transform the large HAR file into a smaller JSON file.
 
-What did I do here? --- I want to select two types of HTTP Request-Response interactions out of the lart HAR.
+What did I do here? --- I want to select two types of HTTP Request-Response interactions out of the source HAR.
 
 1. HTTP Requests to the URL that ends with "`jquery.min.js`"
 2. HTTP Requests to the URL that contains "`fontawesome`"
 
-I want to transform a large JSON into a smaller one. I want to select the portion that I am interested in, and I want to strip off the rest. Let me illustrate it:
+I want to transform a large JSON into a smaller one. I want to select the portion that I am interested in, and I want to strip the rest off. Let me illustrate the transformation result:
 
 ```
 {
@@ -154,7 +154,7 @@ $ ls -la work | grep TS1
 -rw-r--r--   1 kazuakiurayama  staff     154419  7 24 17:00 TS1_demoaut.katalon.com-selection.har
 ```
 
-How can I do it? --- Please read the source code and find out how to. What's most interesting would be this part:
+How could I make it? --- Please read the source code and find out how to. The most essential part is this:
 
 ```
 // specify how I use Jayway JsonPath to transform the input HAR
@@ -171,7 +171,7 @@ Closure cls = { Path har ->
 
 	Filter filter = filter1.or(filter2)
 
-	// Now select interesting entries out of theHAR to create a much smaller json file
+	// Now select interesting entries out of the HAR to create a much smaller json file
 	List<Map<String, Object>> result =
 		JsonPath.parse(Files.newInputStream(har))
 			.read("\$['log']['entries'][?]", filter)
@@ -179,7 +179,7 @@ Closure cls = { Path har ->
 	return result
 }
 
-// apply the templates which drive Jayway JsonPath
+// apply the templates to transform the input into the output
 WebUI.callTestCase(findTestCase("Test Cases/main/post-process/HAR Transform"),
 					[
 						"inputHar": inputHar,
@@ -189,14 +189,18 @@ WebUI.callTestCase(findTestCase("Test Cases/main/post-process/HAR Transform"),
 					])
 ```
 
-This code fragment looks like a magic spell. I employed [Jayway JsonPath](https://github.com/json-path/JsonPath) library. There are sevelral articles about JsonPath on the net.
+Do you think, this code fragment looks like a magic spell? --- Yes, very magical.
+
+I employed [Jayway JsonPath](https://github.com/json-path/JsonPath) library. There are sevelral articles about JsonPath on the net.
 
 - [Introduction to JsonPath, Baeldung](https://www.baeldung.com/guide-to-jayway-jsonpath) --- this article introduce me to JsonPath. It was enough for me.
 - [Comprehensive Guide to JsonPath, CODDIPA](https://codippa.com/jayway-jsonpath-java/)
 
+The 4th step takes just 3 seconds. Jayway JsonPath runs amazingly fast.
+
 ## How to import required jar files.
 
-Katalon Studio does not bundle the jar files required to use the Jayway JsonPath. You need to import external jar files from Maven Central repository into the `<projectDir>/Drivers` folder. The following document explains how to do it:
+Katalon Studio does not bundle the jar files required to use the Jayway JsonPath. You need to download the required external jar files from Maven Central repository, locate them into the `<projectDir>/Drivers` folder. The following document explains how to do it:
 
 - [Katalon Gradle Plugin](https://github.com/katalon-studio/katalon-gradle-plugin)
 
@@ -204,7 +208,7 @@ To do this, you need to install Java and Gradle into your machine. The following
 
 - [setting up gradle build tool](https://forum.katalon.com/t/automated-visual-inspection/81966#setting-up-gradle-build-tool-22)
 
-Once you installed Java and Gradle, you want to write [`<projectDir>/build.gradle`](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/main/build.gradle) as follows:
+Once you installed Java and Gradle, you want to write [`<projectDir>/build.gradle`](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/build.gradle) as follows:
 
 ```
 plugins {
