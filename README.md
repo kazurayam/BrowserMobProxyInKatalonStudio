@@ -40,7 +40,7 @@ Here is the entry point: `Test Suites/TS1_demoaut.katalon.com`. Just try running
 
 ![TS1](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/images/TS1_demoaut.katalon.com.png)
 
-This Test Suitecomprises with 4 Test Case scripts.
+This Test Suite comprises with 4 Test Case scripts.
 
 ### [Test Cases/main/common/startProxy_WebUI.openBrowser](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/main/common/startProxy_WebUI.openBrowser/Script1721103602049.groovy)
 
