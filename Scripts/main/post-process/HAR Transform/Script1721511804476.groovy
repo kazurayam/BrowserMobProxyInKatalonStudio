@@ -34,7 +34,15 @@ Measurement m1 = new Measurement.Builder("Transforming a HAR file", ["Case"]).bu
 
 // apply the transformer over the input HAR to get the result
 m1.before(["Case": GlobalVariable.TestCaseShortName])
-List<Map<String, Object>> result = templates.call(inputHar)
+List<Map<String, Object>> entries = templates.call(inputHar)
+
+// in order to shorten the output json, will overwrite response.content.text which could be very large
+entries.forEach({ entry ->
+	if (entry.response.content.text.length() > 200) {
+		entry.response.content.text = "***** shortened by BY HAR Tansform *****"
+	}
+})
+
 m1.after()
 
 KeywordUtil.logInfo String.format("[HAR Transform] Filtering HAR took %,6d msecs",
@@ -55,7 +63,7 @@ def reconstructed = ["log":[
 	// "creator": null,
 	// "pages": null,
 
-	"entries": result,
+	"entries": entries,
 
 	//"comment": ""
 ]]

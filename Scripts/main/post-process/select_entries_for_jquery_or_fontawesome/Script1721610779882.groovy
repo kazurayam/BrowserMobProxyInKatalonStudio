@@ -37,7 +37,7 @@ Closure cls = { Path har ->
 	
 	Filter filter = filter1.or(filter2)
 	
-	// Now select interesting entries out of theHAR to create a much smaller json file
+	// Now select interesting entries out of the HAR to create a much smaller json file
 	List<Map<String, Object>> result =
 		JsonPath.parse(Files.newInputStream(har))
 			.read("\$['log']['entries'][?]", filter)
@@ -45,7 +45,7 @@ Closure cls = { Path har ->
 	return result
 }
 
-// apply the templates which drive Jayway JsonPath
+// apply the templates to transform the input into the output
 WebUI.callTestCase(findTestCase("Test Cases/main/post-process/HAR Transform"),
 					[
 						"inputHar": inputHar,
