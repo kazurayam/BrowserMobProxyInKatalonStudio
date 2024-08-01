@@ -35,11 +35,6 @@ entries.forEach({ entry ->
 	}
 })
 
-String reportName = GlobalVariable.TestSuiteShortName + "-transform.md"
-Path reportFile = outputJson.getParent().resolve(reportName)
-
-KeywordUtil.logInfo("wrote " + reportFile)
-
 // Re-construct a Map in the format of HAR
 def reconstructed = ["log":[
 	// "version": null,
