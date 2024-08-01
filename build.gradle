@@ -3,15 +3,13 @@ plugins {
   id "com.katalon.gradle-plugin" version "0.1.1"
 }
 
-version="2.1.0"
+version="2.1.1"
 
 repositories {
   mavenCentral()
-  mavenLocal()
 }
 
 dependencies {
   implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.9.0'
   implementation "com.kazurayam:jsonflyweight:0.1.5"
-  implementation 'com.kazurayam:timekeeper:0.5.0'
 }
