@@ -4,14 +4,9 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Path
 
 import com.kazurayam.jsonflyweight.JsonFlyweight
-import com.kazurayam.timekeeper.Measurement
-import com.kazurayam.timekeeper.Table
-import com.kazurayam.timekeeper.Timekeeper
 import com.kms.katalon.core.util.KeywordUtil
 
 import groovy.json.JsonOutput
-import groovy.lang.Closure
-
 import internal.GlobalVariable
 
 // check the parameters given by the caller Test Case
@@ -30,30 +25,18 @@ if (shouldBeLessThan != null) {
 	shouldBeLessThan = 10
 }
 
-Measurement m1 = new Measurement.Builder("Transforming a HAR file", ["Case"]).build()
-
 // apply the transformer over the input HAR to get the result
-m1.before(["Case": GlobalVariable.TestCaseShortName])
 List<Map<String, Object>> entries = templates.call(inputHar)
 
 // in order to shorten the output json, will overwrite response.content.text which could be very large
 entries.forEach({ entry ->
 	if (entry.response.content.text.length() > 200) {
-		entry.response.content.text = "***** shortened by BY HAR Tansform *****"
+		entry.response.content.text = "***** shortened by HAR Tansform *****"
 	}
 })
 
-m1.after()
-
-KeywordUtil.logInfo String.format("[HAR Transform] Filtering HAR took %,6d msecs",
-									m1.getLastRecordDuration().toMillis())
-
 String reportName = GlobalVariable.TestSuiteShortName + "-transform.md"
 Path reportFile = outputJson.getParent().resolve(reportName)
-Timekeeper tk = new Timekeeper.Builder()
-					.table(new Table.Builder(m1).build())
-					.build()
-tk.report(reportFile)
 
 KeywordUtil.logInfo("wrote " + reportFile)
 

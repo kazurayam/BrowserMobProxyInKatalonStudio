@@ -97,7 +97,7 @@ The `TS1_demoaut.katalon.com-source.jar` file will be a very large JSON text fil
 
 ![VSCode HAR Viewer](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/images/VSCode_HARViewer.png)
 
-If you want to deal with very large JSON files like HTTP Archive in your Katalon project, you would certainly need to VSCode. Katalon Studio is not enough for working with HAR.
+If you want to deal with very large JSON files like HTTP Archive in your Katalon project, you would certainly need VSCode. Katalon Studio is not enough for working with HAR.
 
 ### [Test Cases/main/post-process/select_entries_for_jquery_or_fontawesome](https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/blob/develop/Scripts/main/post-process/select_entries_for_jquery_or_fontawesome/Script1721610779882.groovy)
 
@@ -148,10 +148,11 @@ The script [Test Cases/main/post-process/select_entries_for_jquery_or_fontawesom
 When the script is executed, you will find a file with name `*-selection.har` will be created. Please find that the size of `*-selection.har` is much smaller than the `*-source.har` file.
 
 ```
-$ ls -la work | grep TS1
--rw-r--r--   1 kazuakiurayama  staff     959232  7 24 17:00 TS1_demoaut.katalon.com-pretty.har
--rw-r--r--   1 kazuakiurayama  staff     905344  7 24 17:00 TS1_demoaut.katalon.com-source.har
--rw-r--r--   1 kazuakiurayama  staff     154419  7 24 17:00 TS1_demoaut.katalon.com-selection.har
+$ ls -la work | grep TS1 | grep har
+-rw-r--r--@  1 kazuakiurayama  staff     959183  7 31 07:56 TS1_demoaut.katalon.com-pretty.har
+-rw-r--r--@  1 kazuakiurayama  staff      11670  7 31 07:56 TS1_demoaut.katalon.com-selection.har
+-rw-r--r--@  1 kazuakiurayama  staff     905295  7 31 07:56 TS1_demoaut.katalon.com-source.har
+
 ```
 
 How could I make it? --- Please read the source code and find out how to. The most essential part is this:

@@ -9,9 +9,6 @@ import java.nio.file.Paths
 import com.jayway.jsonpath.Criteria
 import com.jayway.jsonpath.Filter
 import com.jayway.jsonpath.JsonPath
-import com.kazurayam.timekeeper.Measurement
-import com.kazurayam.timekeeper.Table
-import com.kazurayam.timekeeper.Timekeeper
 import com.kms.katalon.core.configuration.RunConfiguration
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
