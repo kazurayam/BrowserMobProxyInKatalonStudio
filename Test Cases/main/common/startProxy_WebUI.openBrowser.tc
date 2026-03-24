@@ -4,5 +4,6 @@
    <name>startProxy_WebUI.openBrowser</name>
    <tag></tag>
    <comment></comment>
+   <recordOption>OTHER</recordOption>
    <testCaseGuid>6f91fba0-5da9-403d-8804-201c9e40e5e2</testCaseGuid>
 </TestCaseEntity>
