@@ -4,5 +4,6 @@
    <name>startProxy_newChromeDriver</name>
    <tag></tag>
    <comment></comment>
+   <recordOption>OTHER</recordOption>
    <testCaseGuid>d5c83ac5-2fe7-4aa5-a743-9546441d54d1</testCaseGuid>
 </TestCaseEntity>
