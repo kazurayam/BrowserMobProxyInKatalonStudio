@@ -1,7 +1,7 @@
 import org.openqa.selenium.remote.DesiredCapabilities
 
 import com.kms.katalon.core.configuration.RunConfiguration
-import com.kms.katalon.core.driver.DriverType
+import com.kms.katalon.core.driver.IDriverType
 import com.kms.katalon.core.webui.driver.DriverFactory
 import com.kms.katalon.core.webui.driver.WebUIDriverType
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
@@ -22,7 +22,7 @@ DesiredCapabilities desiredCapabilities
 GlobalVariable.BrowserMobProxyServer = bmpServer
 
 
-DriverType driverType = DriverFactory.getExecutedBrowser()
+IDriverType driverType = DriverFactory.getExecutedBrowser()
 switch (driverType) {
 	case WebUIDriverType.CHROME_DRIVER:
 	case WebUIDriverType.HEADLESS_DRIVER:

@@ -4,6 +4,7 @@ import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.remote.DesiredCapabilities
 
 import com.kms.katalon.core.webui.driver.DriverFactory
+import com.kms.katalon.core.webui.driver.chrome.ChromeDriverUtil
 
 import internal.GlobalVariable
 import net.lightbody.bmp.BrowserMobProxyServer
@@ -21,7 +22,7 @@ DesiredCapabilities desiredCapabilities
 GlobalVariable.BrowserMobProxyServer = bmpServer
 	
 // launch Chrome browser with desired capabilities so that it communicates through the BMPServer
-System.setProperty("webdriver.chrome.driver", DriverFactory.getChromeDriverPath())
+System.setProperty("webdriver.chrome.driver", ChromeDriverUtil.getChromeDriverPath())
 ChromeOptions options = new ChromeOptions()
 options.addArguments("--headless")           // use Chrome Headless browser
 options.merge(desiredCapabilities)

@@ -4,7 +4,10 @@
    <name>BrowserMobProxyInKatalonStudio</name>
    <tag></tag>
    <UUID>6472f2b6-a76c-45d5-b9d7-d72b2ebd6084</UUID>
+   <freeLicense>true</freeLicense>
    <migratedVersion>5.9.0</migratedVersion>
+   <modifiedEdition>ENTERPRISE</modifiedEdition>
+   <modifiedVersion>10.4.2</modifiedVersion>
    <pageLoadTimeout>0</pageLoadTimeout>
    <projectFileLocation>/Users/kazuakiurayama/katalon-workspace/BrowserMobProxyInKatalonStudio/BrowserMobProxyInKatalonStudio.prj</projectFileLocation>
    <sourceContent>
