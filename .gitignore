@@ -23,8 +23,6 @@ build
 settings/
 console.properties
 
-Drivers/
-
 .DS_Store
 
 work/
