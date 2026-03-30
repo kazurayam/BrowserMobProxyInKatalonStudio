@@ -1,7 +1,9 @@
-package com.kazurayam.ks;
+package com.kazurayam.jsonflyweight;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+
+import com.kazurayam.jsonflyweight.JsonFlyweight
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +14,7 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 
 @RunWith(JUnit4.class)
-
-public class JSONFlyweightPrettyPrinterTest {
+public class JsonFlyweightPrettyPrintTest {
 
 	private String ugly = '''{"store": {
 			"book": [ {"author": "Nigel Rees","title": "Sayings of the Century","price": 8.95
@@ -25,7 +26,7 @@ public class JSONFlyweightPrettyPrinterTest {
 	public void test_smoke() {
 		StringReader sr = new StringReader(ugly);
 		StringWriter sw = new StringWriter();
-		JSONFlyweightPrettyPrinter.prettyPrint(sr,  sw);
+		JsonFlyweight.prettyPrint(sr,  sw);
 		assertTrue(sw.toString().length() > 0);
 		println sw.toString();
 	}
@@ -45,7 +46,7 @@ public class JSONFlyweightPrettyPrinterTest {
 		// do pretty-printing
 		InputStream is = Files.newInputStream(har)
 		OutputStream os = Files.newOutputStream(out)
-		JSONFlyweightPrettyPrinter.prettyPrint(is,  os);
+		JsonFlyweight.prettyPrint(is,  os);
 		// verify the output
 		assertTrue(Files.exists(out));
 		assertTrue(out.toFile().length() > 0);
@@ -56,7 +57,7 @@ public class JSONFlyweightPrettyPrinterTest {
 		String json = '''{"array":[]}'''
 		StringReader sr = new StringReader(json);
 		StringWriter sw = new StringWriter();
-		JSONFlyweightPrettyPrinter.prettyPrint(sr, sw)
+		JsonFlyweight.prettyPrint(sr, sw)
 		println sw.toString()
 	}
 
@@ -65,7 +66,7 @@ public class JSONFlyweightPrettyPrinterTest {
 		String json = '''{"array":{}}'''
 		StringReader sr = new StringReader(json);
 		StringWriter sw = new StringWriter();
-		JSONFlyweightPrettyPrinter.prettyPrint(sr, sw)
+		JsonFlyweight.prettyPrint(sr, sw)
 		println sw.toString()
 	}
 }

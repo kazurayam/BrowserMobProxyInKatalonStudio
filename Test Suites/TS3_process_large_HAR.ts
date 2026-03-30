@@ -36,7 +36,7 @@
       <guid>3534b694-de9e-430e-8e18-05616633b8a8</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/main/post-process/select_entries_with_response_status_302</testCaseId>
+      <testCaseId>Test Cases/main/post-process/select_entries_with_response_status_301</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
 </TestSuiteEntity>

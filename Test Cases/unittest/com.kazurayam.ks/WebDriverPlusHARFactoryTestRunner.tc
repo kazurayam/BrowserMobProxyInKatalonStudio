@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>closeBrowser_stopProxy</name>
+   <name>WebDriverPlusHARFactoryTestRunner</name>
    <tag></tag>
    <comment></comment>
    <recordOption>OTHER</recordOption>
-   <testCaseGuid>23513093-bf60-49fe-8807-f438a1333e9d</testCaseGuid>
+   <testCaseGuid>846294e3-99cd-4da9-821f-aae380de1005</testCaseGuid>
 </TestCaseEntity>

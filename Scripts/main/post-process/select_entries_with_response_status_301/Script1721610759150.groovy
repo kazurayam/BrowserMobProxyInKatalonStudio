@@ -6,6 +6,8 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
+import org.apache.commons.io.FileUtils
+
 import com.jayway.jsonpath.Criteria
 import com.jayway.jsonpath.Filter
 import com.jayway.jsonpath.JsonPath
@@ -14,23 +16,23 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 
+Path outDir = Paths.get(RunConfiguration .getProjectDir())
+				.resolve('work')
+				.resolve(GlobalVariable.TestSuiteShortName)
+
 // Input
-Path projectDir = Paths.get(RunConfiguration.getProjectDir());
-Path inputHar = projectDir.resolve("work").resolve(GlobalVariable.TestSuiteShortName + "-pretty.har")
+Path inputHar = outDir.resolve("pretty.har")
+assert Files.exists(inputHar)
 
 // Output
-Path output = projectDir.resolve("work").resolve(GlobalVariable.TestSuiteShortName + "-selection.har")
-Files.createDirectories(output.getParent())
+Path output = outDir.resolve("extract.har")
 
 // specifeis how we use Jayway JsonPath to transform the input HAR
 Closure cls = { Path har ->
 	
-	// I am interested in a HTTP request of which Response contains a string "Dockerfile" somewhere in the content text
-	//Filter filter = Filter.filter(
-	//	Criteria.where("response.content.text")
-	//			.regex(Pattern.compile('.*html.*')));
+	// I am interested in a HTTP response of which status is 301 Moved Permanently
 	Filter filter = Filter.filter(
-		Criteria.where("response.status").eq(302));
+		Criteria.where("response.status").eq(301));
 	
 	// Now select interesting entries out of theHAR to create a much smaller json file
 	List<Map<String, Object>> result =
@@ -48,4 +50,3 @@ WebUI.callTestCase(findTestCase("Test Cases/main/post-process/HAR Transform"),
 						"outputJson": output,
 						"shouldBeLessThan": 20
 					])
-
