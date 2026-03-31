@@ -5,17 +5,10 @@ import java.nio.file.Path
 import java.nio.file.StandardOpenOption
 
 import org.apache.commons.lang.time.StopWatch
-import org.openqa.selenium.Capabilities
-import org.openqa.selenium.Proxy
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeOptions
-import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.firefox.FirefoxOptions
-import org.openqa.selenium.firefox.FirefoxDriver
-import org.openqa.selenium.remote.RemoteWebDriver
 
 import com.kazurayam.jsonflyweight.JsonFlyweight
 import com.kms.katalon.core.annotation.Keyword
+import com.kms.katalon.core.configuration.RunConfiguration
 import com.kms.katalon.core.driver.IDriverType
 import com.kms.katalon.core.util.KeywordUtil
 import com.kms.katalon.core.webui.driver.DriverFactory
@@ -35,7 +28,6 @@ import net.lightbody.bmp.proxy.CaptureType
 public class WebDriverPlusHARFactory {
 
 	private static BrowserMobProxyServer bmpServer = null;
-	private static Proxy proxy = null;
 
 	/**
 	 * The constructor should have been declared private, but Katalon Studio requires it to be public 
@@ -54,36 +46,34 @@ public class WebDriverPlusHARFactory {
 		watch.start()
 		startTime = watch.getTime()
 		if (bmpServer == null) {
+			// start the BrowserMob Proxy Server
+			bmpServer = startBmpServer()
+			bmpLaunched = watch.getTime()
+
+			// Modify the RunConfiguration object dynamically using Groovy's Meta-programming technique
+			RunConfigurationModifier.apply()
+			// pass the port number that Proxy listed on, which WebDriver should connect to.
+			// Thus the browser communicates the target URL via the Proxy.
+			RunConfiguration.setHttpProxyInformation('localhost', bmpServer.getPort())
+			// set the preference "acceptInsecureCerts" to be true
+			RunConfiguration.setAcceptInsecureCerts(true)
+
+			// other browser-type-specific configurations
 			IDriverType driverType = DriverFactory.getExecutedBrowser()
 			switch (driverType) {
 				case WebUIDriverType.FIREFOX_DRIVER:
 				case WebUIDriverType.FIREFOX_HEADLESS_DRIVER:
-				// start the BrowserMob Proxy Server
-					(bmpServer, proxy) = startBmpServer()
-					bmpLaunched = watch.getTime()
-				// pass the port number that Proxy listed on, which WebDriver should connect to.
-				// Thus the browser communicates the target URL via the Proxy
-					FirefoxOptions browserOptions = new FirefoxOptions();
-					browserOptions.setProxy(proxy)
-					browserOptions.setAcceptInsecureCerts(true)
-					WebDriver driver = new FirefoxDriver(browserOptions);
-					DriverFactory.changeWebDriver(driver);
-					break;
 				case WebUIDriverType.CHROME_DRIVER:
 				case WebUIDriverType.HEADLESS_DRIVER:
 				case WebUIDriverType.EDGE_CHROMIUM_DRIVER:
-					(bmpServer, proxy) = startBmpServer()
-					bmpLaunched = watch.getTime()
-					ChromeOptions browserOptions = new ChromeOptions();
-					browserOptions.setProxy(proxy);
-					browserOptions.setAcceptInsecureCerts(true)
-					WebDriver driver = new ChromeDriver(browserOptions);
-					DriverFactory.changeWebDriver(driver);
+				// insert statements if anything required
 					break;
 				default:
 					KeywordUtil.markWarning("Exporting HAR for " + driverType.name + " is not supported");
 			}
 		}
+		// now we open a browser, which is connected to the BrowserMob Proxy server
+		WebUI.openBrowser(url)
 		browserOpened = watch.getTime()
 		endTime = watch.getTime()
 		KeywordUtil.logInfo(String.format('[WebDriverPlusHARFactory#openBrowser] bmpLaunched - startTime: %.3fs', (bmpLaunched - startTime) / 1000))
@@ -101,21 +91,7 @@ public class WebDriverPlusHARFactory {
 				CaptureType.REQUEST_HEADERS,
 				CaptureType.RESPONSE_HEADERS);
 		server.newHar("request")
-		//
-		String proxyStr = "localhost:" + server.getPort();
-		Proxy seleniumProxy = new Proxy()
-		seleniumProxy.setHttpProxy(proxyStr);
-		seleniumProxy.setSslProxy(proxyStr);
-		//
-		//DesiredCapabilities desiredCapabilities = new DesiredCapabilities()
-		//desiredCapabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);    // Selenium 4 no longer has this
-		//desiredCapabilities.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-		//desiredCapabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
-		//
-		return [
-			server,
-			seleniumProxy
-		]
+		return server
 	}
 
 	/**

@@ -4,15 +4,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.BeforeClass;import org.apache.commons.lang.time.StopWatch
-
+import org.apache.commons.lang.time.StopWatch
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import com.kms.katalon.core.configuration.RunConfiguration;
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import com.kms.katalon.core.util.KeywordUtil
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 @RunWith(JUnit4.class)
 public class WebDriverPlusHARFactoryTest {
@@ -50,7 +50,7 @@ public class WebDriverPlusHARFactoryTest {
 
 		assert Files.exists(outFile)
 		assert outFile.toFile().length()> 0
-		
+
 		KeywordUtil.logInfo("[WebDriverPlusHARFactoryTest#testSmoke] outFile: " + "./" + projectDir.relativize(outFile))
 	}
 }
