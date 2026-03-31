@@ -35,8 +35,9 @@ public class WebDriverPlusHARFactory {
 	public WebDriverPlusHARFactory() {}
 
 	/**
-	 *
-	 * @return
+	 * Call WebUI.openBrowser keyword to start WebDriver, 
+	 * Start BrowserMob Proxy background if the the browser type is one of Forefox, Chrome or Edge on the desktop.
+	 * Remote browser and browsers on moble device is not supported.
 	 */
 	@Keyword
 	public static void openBrowser(String url) {
@@ -46,19 +47,7 @@ public class WebDriverPlusHARFactory {
 		watch.start()
 		startTime = watch.getTime()
 		if (bmpServer == null) {
-			// start the BrowserMob Proxy Server
-			bmpServer = startBmpServer()
-			bmpLaunched = watch.getTime()
-
-			// Modify the RunConfiguration object dynamically using Groovy's Meta-programming technique
-			RunConfigurationModifier.apply()
-			// pass the port number that Proxy listed on, which WebDriver should connect to.
-			// Thus the browser communicates the target URL via the Proxy.
-			RunConfiguration.setHttpProxyInformation('localhost', bmpServer.getPort())
-			// set the preference "acceptInsecureCerts" to be true
-			RunConfiguration.setAcceptInsecureCerts(true)
-
-			// other browser-type-specific configurations
+			// check the browser-type and configure the proxy
 			IDriverType driverType = DriverFactory.getExecutedBrowser()
 			switch (driverType) {
 				case WebUIDriverType.FIREFOX_DRIVER:
@@ -66,7 +55,9 @@ public class WebDriverPlusHARFactory {
 				case WebUIDriverType.CHROME_DRIVER:
 				case WebUIDriverType.HEADLESS_DRIVER:
 				case WebUIDriverType.EDGE_CHROMIUM_DRIVER:
-				// insert statements if anything required
+					// start the BrowserMob Proxy Server
+					bmpServer = startBmpServer()
+					bmpLaunched = watch.getTime()
 					break;
 				default:
 					KeywordUtil.markWarning("Exporting HAR for " + driverType.name + " is not supported");
@@ -76,8 +67,10 @@ public class WebDriverPlusHARFactory {
 		WebUI.openBrowser(url)
 		browserOpened = watch.getTime()
 		endTime = watch.getTime()
-		KeywordUtil.logInfo(String.format('[WebDriverPlusHARFactory#openBrowser] bmpLaunched - startTime: %.3fs', (bmpLaunched - startTime) / 1000))
-		KeywordUtil.logInfo(String.format('[WebDriverPlusHARFactory#openBrowser] browserOpened - bmpLaunched: %.3fs', (browserOpened - bmpLaunched) / 1000))
+		if (bmpLaunched != 0) {
+			KeywordUtil.logInfo(String.format('[WebDriverPlusHARFactory#openBrowser] bmpLaunched - startTime: %.3fs', (bmpLaunched - startTime) / 1000))
+			KeywordUtil.logInfo(String.format('[WebDriverPlusHARFactory#openBrowser] browserOpened - bmpLaunched: %.3fs', (browserOpened - bmpLaunched) / 1000))
+		}
 		KeywordUtil.logInfo(String.format('[WebDriverPlusHARFactory#openBrowser] endTime - startTime: %.3fs', (endTime - startTime) / 1000))
 		watch.stop()
 	}
@@ -91,17 +84,41 @@ public class WebDriverPlusHARFactory {
 				CaptureType.REQUEST_HEADERS,
 				CaptureType.RESPONSE_HEADERS);
 		server.newHar("request")
+		// Modify the RunConfiguration object dynamically using Groovy's Meta-programming technique
+		RunConfigurationModifier.apply()
+		// pass the port number that Proxy listed on, which WebDriver should connect to.
+		// Thus the browser communicates the target URL via the Proxy.
+		RunConfiguration.setHttpProxyInformation('localhost', server.getPort())
+		// set the preference "acceptInsecureCerts" to be true
+		RunConfiguration.setAcceptInsecureCerts(true)
 		return server
 	}
 
 	/**
-	 * call WebUI.closeBrowser keyword, export HTTP Archive information from the BrowserMob Proxy process, 
-	 * serialize it into the writer 
-	 * @param bw
-	 * @return
+	 * call WebUI.closeBrowser keyword, export HTTP Archive from BrowserMob Proxy,
+	 * serialize into the file, stop the proxy 
 	 */
 	@Keyword
+	public static void closeBrowserExportHAR(String filepath) {
+		Objects.requireNonNull(filepath)
+		File outFile = new File(filepath)
+		closeBrowserExportHAR(filepath)
+	}
+	
+	public static void closeBrowserExportHAR(File outFile) {
+		Objects.requireNonNull(outFile)	
+		Path path = outFile.toPath()
+		BufferedWriter bw = Files.newBufferedWriter(path)
+		closeBrowserExportHAR(bw)
+	}
+	
+	/**
+	 * call WebUI.closeBrowser keyword, export HTTP Archive from BrowserMob Proxy, 
+	 * serialize it into the Writer, stop the proxy
+	 * @param bw Writer into which the HAR will be serialized
+	 */
 	public static void closeBrowserExportHAR(Writer wr) {
+		Objects.requireNonNull(wr)
 		StopWatch watch = new StopWatch()
 		long startTime, browserClosedTime, harAquiredTime, harExportedTime, endTime;
 		watch.start()
