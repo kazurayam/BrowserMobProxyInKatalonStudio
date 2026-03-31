@@ -4,5 +4,6 @@
    <name>HAR Transform</name>
    <tag></tag>
    <comment></comment>
+   <recordOption>OTHER</recordOption>
    <testCaseGuid>239a3fa0-ba28-41e7-af2d-547158e383af</testCaseGuid>
 </TestCaseEntity>

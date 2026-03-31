@@ -4,5 +4,6 @@
    <name>visit_duckduckgo_to_create_a_large_HAR</name>
    <tag></tag>
    <comment></comment>
+   <recordOption>OTHER</recordOption>
    <testCaseGuid>3b65cef2-1efe-4f2b-ae10-1b660cdb29ce</testCaseGuid>
 </TestCaseEntity>

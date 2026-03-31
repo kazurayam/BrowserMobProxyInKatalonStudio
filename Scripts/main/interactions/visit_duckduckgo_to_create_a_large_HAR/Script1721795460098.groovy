@@ -1,3 +1,4 @@
+import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 
 import com.kms.katalon.core.testobject.ConditionType
@@ -13,12 +14,13 @@ TestObject makeTestObject(String id, String xpath) {
 String searchUrl = 'https://duckduckgo.com/?q=browsermob+proxy&ia=web'
 WebUI.navigateToUrl(searchUrl)
 
-String prefix = '//div[@id="react-layout"]/div/div/div/div/section[@data-testid="mainline"]'
-WebUI.verifyElementPresent(makeTestObject("mainline", prefix), 10)
-WebUI.verifyElementPresent(makeTestObject("mainline", prefix + '/ol'), 10)
-WebUI.verifyElementPresent(makeTestObject("mainline", prefix + '/ol/li'), 10)
+String prefix = '//*[@id="react-layout"]/div/div[1]/div/div[2]/section[1]'
+WebUI.verifyElementPresent(makeTestObject("mainline", prefix), 30)
 
-TestObject anchorsTO = makeTestObject("anchors", prefix + '/ol/li/article/div[2]/h2/a')
+// with Chrome and Chrome Headless browser, this takes very long seconds  (50s?)
+WebUI.verifyElementPresent(makeTestObject("mainline/ol", prefix + '/ol'), 100) 
+
+TestObject anchorsTO = makeTestObject("anchors", prefix + '/ol/li/article/div/h2/a')
 WebUI.verifyElementPresent(anchorsTO, 10)
 
 List<WebElement> anchors = WebUI.findWebElements(anchorsTO, 10)
@@ -32,5 +34,3 @@ hrefs.forEach { href ->
 	WebUI.navigateToUrl(href)
 	WebUI.delay(5)                // insert a pause to be gentle to the server(s)
 }
-
-WebUI.closeBrowser()

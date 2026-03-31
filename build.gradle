@@ -10,8 +10,18 @@ repositories {
 }
 
 dependencies {
+  // https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/issues/49
+  // the following line has no effect.
+  //implementation "net.lightbody.bmp:browsermob-proxy:2.1.5"
+
+  implementation 'org.bouncycastle:bcpkix-jdk18on:1.83'
+  implementation 'io.netty:netty-transport:4.2.10.Final'
+  implementation 'io.netty:netty-handler:4.2.10.Final'
+  implementation 'io.netty:netty-codec-http:4.2.10.Final'
+
   implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.9.0'
   implementation "com.kazurayam:jsonflyweight:0.1.5"
-  implementation 'org.bouncycastle:bcpkix-jdk18on:1.83'
-  implementation 'io.netty:netty-all:4.2.10.Final'
+
+  // The following line makes the Drivers folder too much populated. Shouldn't do that.
+  //implementation 'com.kazurayam:junit4ks:1.6.3'
 }

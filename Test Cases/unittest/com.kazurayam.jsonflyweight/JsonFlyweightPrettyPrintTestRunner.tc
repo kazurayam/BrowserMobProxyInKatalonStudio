@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>closeBrowser_stopProxy</name>
+   <name>JsonFlyweightPrettyPrintTestRunner</name>
    <tag></tag>
    <comment></comment>
    <recordOption>OTHER</recordOption>
-   <testCaseGuid>23513093-bf60-49fe-8807-f438a1333e9d</testCaseGuid>
+   <testCaseGuid>92828a79-2bd8-4145-b137-fcd1aa249f65</testCaseGuid>
 </TestCaseEntity>

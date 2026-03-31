@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>select_entries_with_response_status_302</name>
+   <name>select_entries_with_response_status_301</name>
    <tag></tag>
    <comment></comment>
+   <recordOption>OTHER</recordOption>
    <testCaseGuid>0dbf391c-54e7-43cc-b99a-e6d31b12800b</testCaseGuid>
 </TestCaseEntity>

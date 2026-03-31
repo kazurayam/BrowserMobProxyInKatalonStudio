@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>closeBrowser_stopProxy</name>
+   <name>RunConfigurationTestRunner</name>
    <tag></tag>
    <comment></comment>
    <recordOption>OTHER</recordOption>
-   <testCaseGuid>23513093-bf60-49fe-8807-f438a1333e9d</testCaseGuid>
+   <testCaseGuid>c1505dfe-d80e-4da4-8ad6-a26d25f48459</testCaseGuid>
 </TestCaseEntity>

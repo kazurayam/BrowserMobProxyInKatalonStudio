@@ -1,6 +1,4 @@
-import com.kms.katalon.core.annotation.BeforeTestCase
 import com.kms.katalon.core.annotation.BeforeTestSuite
-import com.kms.katalon.core.context.TestCaseContext
 import com.kms.katalon.core.context.TestSuiteContext
 
 import internal.GlobalVariable
@@ -12,13 +10,7 @@ class TestListener {
 		GlobalVariable.TestSuiteShortName = 
 			toTestSuiteShortName(testSuiteContext.getTestSuiteId())
 	}
-	
-	@BeforeTestCase
-	def beforeTestCase(TestCaseContext testCaseContext) {
-		GlobalVariable.TestCaseShortName =
-			toTestCaseShortName(testCaseContext.getTestCaseId())	
-	}
-	
+		
 	/**
 	 * remove prepending "Test Suite/", and translate "/" to "_"
 	 * 
@@ -31,11 +23,7 @@ class TestListener {
 	private String toTestSuiteShortName(String testSuiteId) {
 		return substringAfter(testSuiteId, "Test Suites/").replaceAll("/", "_")
 	}
-	
-	private String toTestCaseShortName(String testCaseId) {
-		return substringAfter(testCaseId, "Test Cases/").replaceAll("/", "_")
-	}
-	
+		
 	/**
 	 * remove prepending "Test Suite/"
 	 * 
