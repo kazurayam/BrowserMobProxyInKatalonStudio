@@ -55,7 +55,7 @@ public class WebDriverPlusHARFactory {
 				case WebUIDriverType.CHROME_DRIVER:
 				case WebUIDriverType.HEADLESS_DRIVER:
 				case WebUIDriverType.EDGE_CHROMIUM_DRIVER:
-					// start the BrowserMob Proxy Server
+				// start the BrowserMob Proxy Server
 					bmpServer = startBmpServer()
 					bmpLaunched = watch.getTime()
 					break;
@@ -104,14 +104,14 @@ public class WebDriverPlusHARFactory {
 		File outFile = new File(filepath)
 		closeBrowserExportHAR(filepath)
 	}
-	
+
 	public static void closeBrowserExportHAR(File outFile) {
-		Objects.requireNonNull(outFile)	
+		Objects.requireNonNull(outFile)
 		Path path = outFile.toPath()
 		BufferedWriter bw = Files.newBufferedWriter(path)
 		closeBrowserExportHAR(bw)
 	}
-	
+
 	/**
 	 * call WebUI.closeBrowser keyword, export HTTP Archive from BrowserMob Proxy, 
 	 * serialize it into the Writer, stop the proxy

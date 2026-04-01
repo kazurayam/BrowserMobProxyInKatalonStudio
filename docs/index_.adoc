@@ -1,8 +1,16 @@
+:PAGES_URL: https://kazurayam.github.io/BrowserMobProxyInKatalonStudio
+
 = Sample usage of BrowserMob Proxy in Katalon Studio
+
+== Histroy
+
+- originally published at Jan 2023
+- updated at Aug 2024, the tag 2.1.2 was confirmed runnable with Katalon Studio v8, does not run on KS v10.
+- updated at April 2025, the tag 2.4.0 was confirmed runnable with Katalon Studio v10, no longer runnable with KS v8.
 
 == Background
 
-In the link:https://forum.katalon.com/[Katalon User Forum], there is a Frequently Asked Question.
+In the link:https://forum.katalon.com/[Katalon User Forum], there is a Frequently Asked Question.git
 
 [quote]
 ____
@@ -15,34 +23,85 @@ Katalon Studio does not support recording the payload of HTTP messages exchanged
 
 BrowserMob Proxy will enabled us to make a link:https://en.wikipedia.org/wiki/HAR_(file_format)[HAR] file which contains all HTTP requests and responses recorded during a course of tests in Katalon Studio. The HTTP messages will be formated in JSON.
 
-The post suggested the way how to make use of BrowserMob Proxy in Katalon Studio. Unfortunately the sample code by matteo.lauria were incomplete (e.g, the `import` statements were trimmed off), so it was difficult for others to reproduce.
+The post suggested a way to make use of BrowserMob Proxy in Katalon Studio. Unfortunately the sample code by matteo.lauria were incomplete (e.g, the `import` statements were trimmed off), so it was difficult for others to reproduce.
 
-== What is this?
+== What is this project does?
 
-Here I would show you a runnable Katalon Studio project empowered by BrowserMob Proxy. With this project, you would see how to make a HAR file that contain HTTP messages exchanged by browser and HTTP servers.
+Here I would show you a runnable Katalon Studio project empowered by BrowserMob Proxy. With this project, you would see how to make a HAR file that contains HTTP messages exchanged by browser and HTTP servers. The following diagram shows the processing sequence how the participating entities cooperate:
 
-image:https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/diagrams/out/sequence/sequence.png[sequence]
+image:{PAGES_URL}/diagrams/out/sequence/sequence.png[sequence]
 
-Additionally, this project would show you a number of sample codes that post-processes the HAR file.
+Additionally, this project would provides a few sample codes that post-processes a large HAR file to extract the request-response loggs that contain information of your interest.
 
-You can download the zip of the project from the link:https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/releases/[Releases] page. You want to download the latest zip; unzip it; open the project with your local Katalon Studio; run the "Test Suite/TS1_WebUI.openBrowser"; when it finished you will find `sample.har` file is created in the project folder.
 
-== BrowserMob Proxy is bundled in Katalon Studio
+== Procedure to run the demonstration project
 
-Every Katalon Studio project has `.classpath` file which list all the built-in jar files available to your test case scripts. It contains the BrowserMob Proxy as this on my Mac:
+=== Prerequisits
 
-[source,xml]
+1. This project was developed and tested on Katalon Studio v10.4.2. This will work on KS v11 as well. This doesn't work on KS v9 and older versions.
+2. I tested this project on macOS 26.3.1. This project has no OS-dependencies. Therefore, it should work on Windows as well.
+2. You need to run link:https://gradle.org/[Gradle Build Tool] on your machine in order to resolve the external dependencies. To run Gradle, you need link:https://www.oracle.com/java/technologies/javase/jdk17-0-13-later-archive-downloads.html[Java 17] or newer installed on your machine. You need the command `$ java --version` to work in the command line.
+
+
+=== Setting up the project
+
+1. Download the zip of `tag 2.4.1` of the project "BrowserMobProxyInKatalonStudio" from the link:https://github.com/kazurayam/BrowserMobProxyInKatalonStudio/releases/[Releases] page. Locate the link labeled "Source code (zip)". Click to download the file.
+2. Unzip it. You will get a new folder named `BrowserMobProxyInKatalonStudio-2.4.1`. I will call this folder as **`<projectDir>`** for short.
+3. You want to resolve external dependencies using Gradle build tool. In a Terminal window, execute the following bash command:
+
+[source,shell]
 ----
-...
-	<classpathentry kind="lib" path="/Applications/Katalon Studio.app/Contents/Eclipse/configuration/resources/lib/browsermob-core-2.1.5.jar"/>
-...
+$ cd <projectDir>
+$ ./gradlew katalonCopyDependencies
 ----
 
-== Demonstration
+When the command finished, you will obtain a set of jar files downloaded from the Maven Central repository on the Internet into the `Drivers` folder, as follows:
+[source,shell]
+----
+$ tree ./Drivers
+./Drivers
+├── katalon_generated_accessors-smart-2.5.0.jar
+├── katalon_generated_asm-9.3.jar
+├── katalon_generated_bcpkix-jdk18on-1.83.jar
+├── katalon_generated_bcprov-jdk18on-1.83.jar
+├── katalon_generated_bcutil-jdk18on-1.83.jar
+├── katalon_generated_json-path-2.9.0.jar
+├── katalon_generated_json-smart-2.5.0.jar
+├── katalon_generated_jsonflyweight-0.1.5.jar
+├── katalon_generated_netty-buffer-4.2.10.Final.jar
+├── katalon_generated_netty-codec-base-4.2.10.Final.jar
+├── katalon_generated_netty-codec-compression-4.2.10.Final.jar
+├── katalon_generated_netty-codec-http-4.2.10.Final.jar
+├── katalon_generated_netty-common-4.2.10.Final.jar
+├── katalon_generated_netty-handler-4.2.10.Final.jar
+├── katalon_generated_netty-resolver-4.2.10.Final.jar
+├── katalon_generated_netty-transport-4.2.10.Final.jar
+├── katalon_generated_netty-transport-native-unix-common-4.2.10.Final.jar
+└── katalon_generated_slf4j-api-2.0.13.jar
 
-Here is the entry point: `Test Suites/TS1_demoaut.katalon.com`. Just try running it.
+1 directory, 18 files
+----
 
-image:https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/images/TS1_demoaut.katalon.com.png[TS1]
+Now you are ready to run the demonstration.
+
+== Running the demonstration
+
+Open the `Test Suites/TS1_demoaut.katalon.com`. You can just run it.
+
+image:{PAGES_URL}/images/TS1_demoaut.katalon.com.png[TS1]
+
+You can choose a browser of Chrome, Chrome (headless), Forefox, Firefox (headless) or Edge Chromeium.
+
+The Test Suite will run for about 1 minute.
+
+When finished, you will find a new folder `work` has been created with 2 files:
+
+image:{PAGES_URL}/images/TS1_result.png[]
+
+[source,shell]
+----
+
+----
 
 This Test Suite comprises with 4 Test Case scripts.
 
