@@ -15,8 +15,6 @@ build
 
 .project
 
-*.har
-
 .cache
 
 .settings/
