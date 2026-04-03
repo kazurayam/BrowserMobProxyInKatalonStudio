@@ -221,11 +221,9 @@ This script does the following:
 
 This step will take just a few seconds to finish.
 
-When this step finished, you will find 2 files created
+When this step finished, you will find a file created
 
 - [`<projectDir>/work/main_TS1_demoaut.katalon.com/pretty.har`](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/main_TS1_demoaut.katalon.com/pretty.har)
-
-- [`<projectDir>/work/main_TS1_demoaut.katalon.com/extract.har`](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/main_TS1_demoaut.katalon.com/extract.har)
 
 ### 4. `Test Cases/main/post-process/select_entries_for_jquery_or_fontawesome`
 
@@ -291,6 +289,8 @@ When this step finished, you will find 2 files created
                         ])
 
 The 4th script will transform the large HAR file into a smaller JSON file.
+
+- [`<projectDir>/work/main_TS1_demoaut.katalon.com/extract.har`](https://kazurayam.github.io/BrowserMobProxyInKatalonStudio/main_TS1_demoaut.katalon.com/extract.har)
 
 What did I do here? --- I wanted to select two types of HTTP Request-Response interactions out of the source HAR.
 
