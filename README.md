@@ -308,4 +308,4 @@ The 4th step takes just 3 seconds. Jayway JsonPath runs amazingly fast.
 
 Hope this helps.
 
-Do you want to get HAR in your own Katalon project? Do you want to find out how to? --- Well, please study this demonstration, reuse whatever code in the project. The `build.gradle` file and the files in the `Keywords` and `Test Cases` folder are essential. These are designed to be reusable.
+Do you want to get HAR in your own Katalon project? Do you want to find out how to? --- Well, please study this demonstration, reuse whatever code in your project. The `build.gradle` file and the files in the `Keywords` and `Test Cases` folder are essential. These are designed to be reusable.
